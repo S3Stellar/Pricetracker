@@ -13,3 +13,15 @@ p
 @app/src/main/java/com/naorfarag/pricetracker/SearchFragment.java,7\9\79111085ae6273ad54394c7a6274b6cf8894ab7a
 n
 >app/src/main/java/com/naorfarag/pricetracker/CartFragment.java,f\d\fd28a111369a6c5a3dfa428916032ae2c2e46d93
+u
+Eapp/src/main/java/com/naorfarag/pricetracker/ui/main/MyViewPager.java,2\a\2a97769a79d6690481311c98e34f2d63e05d90f5
+@
+app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+x
+Happ/src/main/java/com/naorfarag/pricetracker/lv/util/LruBitmapCache.java,c\3\c30a5c80c9a042b813d98d997698651acd6ea957
+v
+Fapp/src/main/java/com/naorfarag/pricetracker/lv/app/AppController.java,b\b\bb02eb111d215102a73b0cac169831c5e48b6cfc
+r
+Bapp/src/main/java/com/naorfarag/pricetracker/lv/model/Product.java,7\d\7dd82890a6adf4a6e428464ff8a5fa139c33f03b
+~
+Napp/src/main/java/com/naorfarag/pricetracker/lv/adapter/CustomListAdapter.java,6\a\6ae9a45649a618b5712d939e49435d14578a5b94

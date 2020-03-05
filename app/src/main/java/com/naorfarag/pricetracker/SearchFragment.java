@@ -31,7 +31,7 @@ public class SearchFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
         String url = "https://www.amazon.com/";
-        WebView view = (WebView) rootView.findViewById(R.id.webView);
+        WebView view = rootView.findViewById(R.id.webView);
 
         view.setWebViewClient(new WebViewClient());
         view.getSettings().setJavaScriptEnabled(true);

@@ -1,9 +1,15 @@
 
-D
-java:S1128".Remove this unused import 'android.view.Menu'.(£¯Ò…
+‰
+java:S3252I"gUse static access with "com.google.android.material.snackbar.BaseTransientBottomBar" for "LENGTH_LONG".(ñµœØøÿÿÿÿ8ÁÊ£»Š.
 £
-java:S11869"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(½Ä³ïşÿÿÿÿ8ñ÷ĞœŠ.
-
-java:S1186="€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¦›Í8ñ÷ĞœŠ.
+java:S1186="€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(½Ä³ïşÿÿÿÿ8ñ÷ĞœŠ.
+]
+java:S1128	"@Remove this unused import 'androidx.viewpager.widget.ViewPager'.(¨Ù›æ8½–·Š.
 H
 java:S1128"2Remove this unused import 'android.view.MenuItem'.(Ğ¬Ó‘
+
+java:S1186A"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¦›Í8ñ÷ĞœŠ.
+D
+java:S1128".Remove this unused import 'android.view.Menu'.(£¯Ò…
+V
+java:S1128"4Remove this unused import 'android.widget.TextView'.(„Ë‚ˆÿÿÿÿÿ8Á¿»Š.
