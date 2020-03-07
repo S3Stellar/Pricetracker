@@ -15,7 +15,7 @@ import android.webkit.WebViewClient;
  * A simple {@link Fragment} subclass.
  */
 public class SearchFragment extends Fragment {
-    View view;
+    private WebView view;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -31,9 +31,13 @@ public class SearchFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
         String url = "https://www.amazon.com/";
-        WebView view = rootView.findViewById(R.id.webView);
+        view = rootView.findViewById(R.id.webView);
 
         view.setWebViewClient(new WebViewClient());
+        view.getSettings().setSupportZoom(true);
+        view.getSettings().setBuiltInZoomControls(true);
+        view.getSettings().setDisplayZoomControls(false);
+
         view.getSettings().setJavaScriptEnabled(true);
         view.getSettings().setAllowContentAccess(true);
         view.getSettings().setAppCacheEnabled(true);
@@ -42,5 +46,9 @@ public class SearchFragment extends Fragment {
         view.loadUrl(url);
 
         return rootView ;
+    }
+
+    public String getUrl(){
+        return view.getUrl();
     }
 }

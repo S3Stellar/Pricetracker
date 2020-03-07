@@ -1,14 +1,8 @@
 package com.naorfarag.pricetracker.lv.adapter;
 
-import com.naorfarag.pricetracker.R;
-import com.naorfarag.pricetracker.lv.app.AppController;
-import com.naorfarag.pricetracker.lv.model.Product;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,30 +11,36 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.naorfarag.pricetracker.R;
+import com.naorfarag.pricetracker.lv.app.AppController;
+import com.naorfarag.pricetracker.lv.model.Product;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
-    private List<Product> movieItems;
-    ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+    private List<Product> productList;
+    private ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
-    public CustomListAdapter(Activity activity, List<Product> movieItems) {
+    public CustomListAdapter(Activity activity, List<Product> productList) {
         this.activity = activity;
-        this.movieItems = movieItems;
+        this.productList = productList;
     }
 
-    public CustomListAdapter(){
-        movieItems = new ArrayList<>();
+    public CustomListAdapter() {
+        productList = new ArrayList<>();
     }
 
     @Override
     public int getCount() {
-        return movieItems.size();
+        return productList.size();
     }
 
     @Override
     public Object getItem(int location) {
-        return movieItems.get(location);
+        return productList.get(location);
     }
 
     @Override
@@ -61,36 +61,40 @@ public class CustomListAdapter extends BaseAdapter {
             imageLoader = AppController.getInstance().getImageLoader();
         NetworkImageView thumbNail = (NetworkImageView) convertView
                 .findViewById(R.id.thumbnail);
-        TextView title = (TextView) convertView.findViewById(R.id.title);
-        TextView rating = (TextView) convertView.findViewById(R.id.rating);
-        TextView genre = (TextView) convertView.findViewById(R.id.genre);
-        TextView year = (TextView) convertView.findViewById(R.id.releaseYear);
 
-        // getting movie data for the row
-        Product m = movieItems.get(position);
+        TextView productTitle = (TextView) convertView.findViewById(R.id.title);
+        TextView soldBy = (TextView) convertView.findViewById(R.id.soldBy);
+        TextView rating = (TextView) convertView.findViewById(R.id.rating);
+        TextView currentPrice = (TextView) convertView.findViewById(R.id.currentPrice);
+        TextView targetPrice = (TextView) convertView.findViewById(R.id.targetPrice);
+
+        // getting product data for the row
+        Product p = productList.get(position);
 
         // thumbnail image
-        thumbNail.setImageUrl(m.getThumbnailUrl(), imageLoader);
+        thumbNail.setImageUrl(p.getMainImage(), imageLoader);
 
         // title
-        title.setText(m.getTitle());
+        productTitle.setText(p.getProductTitle());
+
+        // sold by
+        soldBy.setText("by: " + p.getSoldBy());
 
         // rating
-        rating.setText("Rating: " + String.valueOf(m.getRating()));
+        rating.setText(" Rating: " + p.getRating());
 
-        // genre
-        String genreStr = "";
-        for (String str : m.getGenre()) {
-            genreStr += str + ", ";
-        }
-        genreStr = genreStr.length() > 0 ? genreStr.substring(0,
-                genreStr.length() - 2) : genreStr;
-        genre.setText(genreStr);
+        // current price
+        String cprice = "Current Price: <font color=\"blue\">" + p.getCurrentStringPrice();
+        currentPrice.setText(Html.fromHtml(cprice), TextView.BufferType.SPANNABLE);
 
-        // release year
-        year.setText(String.valueOf(m.getYear()));
+        // target price
+        String tprice = "Target Price: <font color=\"blue\">" + p.getTargetStringPrice();
+        targetPrice.setText(Html.fromHtml(tprice), TextView.BufferType.SPANNABLE);
 
         return convertView;
     }
 
+    public List<Product> getProductList() {
+        return productList;
+    }
 }

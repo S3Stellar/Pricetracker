@@ -20,16 +20,32 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude("META-INF/*.kotlin_module")
+        exclude 'org/apache/http/version.properties'
+        exclude 'org/apache/http/client/version.properties'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation group: 'org.json', name: 'json', version: '20190722'
-    implementation 'com.rapidapi:rapidconnect-android:0.1'
-    implementation("com.squareup.okhttp3:okhttp:4.4.0")
-    implementation 'com.mcxiaoke.volley:library-aar:1.0.0'
+    //https://github.com/ISchwarz23/Amazon-Product-Advertising-API-URL-Builder
+    //implementation 'de.codecrafters.apaarb:apaarb:0.9.1'
+    implementation 'org.json:json:20190722'
+
+    /*implementation 'com.rapidapi:rapidconnect-android:0.1'
+    implementation("com.squareup.okhttp3:okhttp:4.4.0")*/
+    implementation 'com.mcxiaoke.volley:library-aar:1.0.1'
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

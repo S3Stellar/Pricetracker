@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimary">#353535</color>
+    <color name="colorPrimaryDark">#252525</color>
     <color name="colorAccent">#03DAC5</color>
 
-    <color name="genre">#666666</color>
+    <color name="genre">#FF5722</color>
     <color name="year">#888888</color>
     <color name="list_divider">#d9d9d9</color>
     <color name="list_row_start_color">#ffffff</color>
     <color name="list_row_end_color">#ffffff</color>
-    <color name="list_row_hover_start_color">#ebeef0</color>
-    <color name="list_row_hover_end_color">#ebeef0</color>
+    <color name="list_row_hover_start_color">#D1D1D1</color>
+    <color name="list_row_hover_end_color">#D1D1D1</color>
+    <color name="trackList_layout_color">#D5D5D5</color>
 </resources>

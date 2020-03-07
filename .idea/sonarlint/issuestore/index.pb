@@ -25,3 +25,11 @@ r
 Bapp/src/main/java/com/naorfarag/pricetracker/lv/model/Product.java,7\d\7dd82890a6adf4a6e428464ff8a5fa139c33f03b
 ~
 Napp/src/main/java/com/naorfarag/pricetracker/lv/adapter/CustomListAdapter.java,6\a\6ae9a45649a618b5712d939e49435d14578a5b94
+<
+build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
+h
+8app/src/main/java/com/naorfarag/pricetracker/Finals.java,b\8\b8f6bc1dae5f5a71de0d8defa92b8b82096490e4
+o
+?app/src/main/java/com/naorfarag/pricetracker/NameViewModel.java,7\1\71d5e9360941ec4de9e74db86ee9a84f618d75aa

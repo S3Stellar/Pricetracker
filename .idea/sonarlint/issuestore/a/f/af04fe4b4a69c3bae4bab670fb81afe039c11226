@@ -1,15 +1,47 @@
 
-‰
-java:S3252I"gUse static access with "com.google.android.material.snackbar.BaseTransientBottomBar" for "LENGTH_LONG".(ñµœØøÿÿÿÿ8ÁÊ£»Š.
-£
-java:S1186="€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(½Ä³ïşÿÿÿÿ8ñ÷ĞœŠ.
-]
-java:S1128	"@Remove this unused import 'androidx.viewpager.widget.ViewPager'.(¨Ù›æ8½–·Š.
-H
-java:S1128"2Remove this unused import 'android.view.MenuItem'.(Ğ¬Ó‘
-
-java:S1186A"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¦›Í8ñ÷ĞœŠ.
+Y	java:S125ú"<This block of commented-out lines of code should be removed.(ö¡¸Ü8¥ƒ›ğŠ.
+d
+java:S3027¥"FPut single-quotes around '{' to use the faster "indexOf(char)" method.(‹–•­8¥ƒ›ğŠ.
+T
+java:S2696"6Make the enclosing method "static" or remove this set.(ñ€×à8¥ƒ›ğŠ.
+v	java:S1151"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Ûõû¤8¶‘ÛàŠ.
+^	java:S125«"<This block of commented-out lines of code should be removed.(¶ˆšåÿÿÿÿÿ8¥ƒ›ğŠ.
+X	java:S125l"<This block of commented-out lines of code should be removed.(¾şÂ8¥ƒ›ğŠ.
+p
+java:S3776Ç"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(êÏÜı8¥ƒ›ğŠ.
+^	java:S125 "<This block of commented-out lines of code should be removed.(—ü™úÿÿÿÿ8¥ƒ›ğŠ.
+¤
+java:S1186ÿ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(½Ä³ïşÿÿÿÿ8¥ƒ›ğŠ.
+i
+java:S3027Î"FPut single-quotes around '/' to use the faster "indexOf(char)" method.(½Ì²÷üÿÿÿÿ8¥ƒ›ğŠ.
+^	java:S125ª"<This block of commented-out lines of code should be removed.(‹ÒÄÙşÿÿÿÿ8¥ƒ›ğŠ.
 D
-java:S1128".Remove this unused import 'android.view.Menu'.(£¯Ò…
-V
-java:S1128"4Remove this unused import 'android.widget.TextView'.(„Ë‚ˆÿÿÿÿÿ8Á¿»Š.
+java:S10681"'Remove this unused "url" private field.(Ûõû¤8òî”ìŠ.
+X	java:S125o"<This block of commented-out lines of code should be removed.(İÌ¡‡8¥ƒ›ğŠ.
+h
+java:S3027¥"JPut single-quotes around '}' to use the faster "lastIndexOf(char)" method.(‹–•­8¥ƒ›ğŠ.
+N
+java:S10688",Remove this unused "response" private field.(®›†œúÿÿÿÿ8éššìŠ.
+Š
+java:S3252¾"gUse static access with "com.google.android.material.snackbar.BaseTransientBottomBar" for "LENGTH_LONG".(ñµœØøÿÿÿÿ8¥ƒ›ğŠ.
+P
+java:S1068B".Remove this unused "currentUrl" private field.(ÅÛ®âşÿÿÿÿ8úö³ğŠ.
+Ÿ
+java:S1186ƒ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¦›Í8¥ƒ›ğŠ.
+N
+java:S1068<"1Remove this unused "respondStatus" private field.(ˆ³Ø”8ÑÌåïŠ.
+Y	java:S125õ"<This block of commented-out lines of code should be removed.(áÒïû8¥ƒ›ğŠ.
+F
+java:S1148©"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8¥ƒ›ğŠ.
+F
+java:S1148œ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8¥ƒ›ğŠ.
+o
+java:S1128"MRemove this unused import 'com.naorfarag.pricetracker.ui.main.PageViewModel'.(âğïşÿÿÿÿ8Ä±üîŠ.
+y
+java:S14504"WRemove the "listView" field and declare it as a local variable in the relevant methods.(¯¤½ñûÿÿÿÿ8¶‘ÛàŠ.
+F
+java:S1148±"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8¥ƒ›ğŠ.
+T
+java:S2696¯"6Make the enclosing method "static" or remove this set.(ñ€×à8¥ƒ›ğŠ.
+…
+java:S1450?"cRemove the "sectionsPagerAdapter" field and declare it as a local variable in the relevant methods.(ïÛ’Ûøÿÿÿÿ8¶‘ÛàŠ.

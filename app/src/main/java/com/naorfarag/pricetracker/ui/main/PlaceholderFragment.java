@@ -17,6 +17,7 @@ import com.naorfarag.pricetracker.R;
 /**
  * A placeholder fragment containing a simple view.
  */
+/*
 public class PlaceholderFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -56,4 +57,4 @@ public class PlaceholderFragment extends Fragment {
         });
         return root;
     }
-}
+}*/

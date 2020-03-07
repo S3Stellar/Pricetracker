@@ -1,47 +1,59 @@
 package com.naorfarag.pricetracker.lv.model;
 
-import java.util.ArrayList;
-
 public class Product {
-    private String title, thumbnailUrl;
-    private int year;
+    private String productTitle;
+    private String mainImage;
+    private String soldBy;
+    private String currencySymbol;
+    private String url;
     private double rating;
-    private ArrayList<String> genre;
+    private double currentPrice;
+    private double targetPrice;
 
     public Product() {
     }
 
-    public Product(String name, String thumbnailUrl, int year, double rating,
-                 ArrayList<String> genre) {
-        this.title = name;
-        this.thumbnailUrl = thumbnailUrl;
-        this.year = year;
+    public Product(String productTitle, String mainImage, String soldBy, String currencySymbol, double rating,
+                   double price) {
+        this.productTitle = productTitle;
+        this.mainImage = mainImage;
+        this.soldBy = soldBy;
+        this.currencySymbol = currencySymbol;
         this.rating = rating;
-        this.genre = genre;
+        this.currentPrice = price;
+        this.targetPrice = price;
     }
 
-    public String getTitle() {
-        return title;
+    public String getProductTitle() {
+        return productTitle;
     }
 
-    public void setTitle(String name) {
-        this.title = name;
+    public void setProductTitle(String productTitle) {
+        this.productTitle = productTitle;
     }
 
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
+    public String getMainImage() {
+        return mainImage;
     }
 
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
     }
 
-    public int getYear() {
-        return year;
+    public String getSoldBy() {
+        return soldBy;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setSoldBy(String soldBy) {
+        this.soldBy = soldBy;
+    }
+
+    public String getCurrencySymbol() {
+        return currencySymbol;
+    }
+
+    public void setCurrencySymbol(String currencySymbol) {
+        this.currencySymbol = currencySymbol;
     }
 
     public double getRating() {
@@ -52,12 +64,36 @@ public class Product {
         this.rating = rating;
     }
 
-    public ArrayList<String> getGenre() {
-        return genre;
+    public double getCurrentPrice() {
+        return currentPrice;
     }
 
-    public void setGenre(ArrayList<String> genre) {
-        this.genre = genre;
+
+    public void setCurrentPrice(double currentPrice) {
+        this.currentPrice = currentPrice;
     }
 
+    public String getCurrentStringPrice() {
+        return getCurrencySymbol() + String.valueOf(getCurrentPrice());
+    }
+
+    public double getTargetPrice() {
+        return targetPrice;
+    }
+
+    public void setTargetPrice(double targetPrice) {
+        this.targetPrice = targetPrice;
+    }
+
+    public String getTargetStringPrice() {
+        return getCurrencySymbol() + String.valueOf(getTargetPrice());
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

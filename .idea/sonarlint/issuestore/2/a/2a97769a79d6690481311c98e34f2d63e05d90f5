@@ -1,0 +1,25 @@
+
+Z
+java:S2589."8Remove this expression which always evaluates to "false"(¡¥üáüÿÿÿÿ8àÓ¼ÕŠ.
+D
+java:S1125("(Remove the literal "true" boolean value.(Ü¦Ÿ8àÓ¼ÕŠ.
+K
+java:S1125.")Remove the literal "false" boolean value.(¡¥üáüÿÿÿÿ8àÓ¼ÕŠ.
+J
+java:S11250"(Remove the literal "true" boolean value.(»Ïëÿúÿÿÿÿ8àÓ¼ÕŠ.
+x
+java:S1450"VRemove the "screenX" field and declare it as a local variable in the relevant methods.(Óšùúÿÿÿÿ8¡³»·Š.
+M
+java:S1068"+Remove this unused "screenX" private field.(Óšùúÿÿÿÿ8¡³»·Š.
+U
+java:S2589&"8Remove this expression which always evaluates to "false"(Å¹÷†8àÓ¼ÕŠ.
+F
+java:S1125&")Remove the literal "false" boolean value.(Å¹÷†8àÓ¼ÕŠ.
+Y
+java:S25890"7Remove this expression which always evaluates to "true"(»Ïëÿúÿÿÿÿ8àÓ¼ÕŠ.
+y
+java:S1450"\Remove the "pagingEnabled" field and declare it as a local variable in the relevant methods.(ùêŒ8í¸Ú·Š.
+N
+java:S1068"1Remove this unused "pagingEnabled" private field.(ùêŒ8í¸Ú·Š.
+S
+java:S2589("7Remove this expression which always evaluates to "true"(Ü¦Ÿ8àÓ¼ÕŠ.

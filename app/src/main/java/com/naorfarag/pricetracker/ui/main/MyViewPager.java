@@ -37,7 +37,7 @@ public class MyViewPager extends ViewPager {
         if (event.getY(event.getActionIndex()) < screenY / 6)
             return false && super.onInterceptTouchEvent(event);
         else
-            return true && super.onInterceptTouchEvent(event);
+            return false /*true - enables swipe*/ && super.onInterceptTouchEvent(event);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class MyViewPager extends ViewPager {
         if (event.getY(event.getActionIndex()) < screenY / 6)
             return false && super.onTouchEvent(event);
         else
-            return true && super.onTouchEvent(event);
+            return false /*true - enables swipe*/ && super.onTouchEvent(event);
     }
 
     public void setScreenSize() {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pricetracker</string>
+    <string name="app_name">PTracker</string>
     <string name="tab_search">Search</string>
     <string name="tab_tracklist">Tracklist</string>
     <string name="action_settings">Settings</string>
