@@ -25,13 +25,12 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -130,10 +129,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-      /*  for (DocumentSnapshot document : documents) {
-            JSONObject obj = mapToJSON(document.getData());
-            addProductToTrackList(obj, "", Finals.FIRESTORE);
-        }*/
     }
 
     private void getJsonFromProductURL(final String url) {
@@ -281,19 +276,21 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     product.setCurrentPrice(responseObj.getDouble("retailPrice"));
                 }
+
+                try {
+                    product.setRating(Double.parseDouble(responseObj.getString("productRating").substring(0, responseObj.getString("productRating").indexOf(' '))));
+                } catch (Exception e) {
+                    product.setRating(0);
+                }
             } else {
                 product.setMainImage(responseObj.getString("mainImage"));
                 product.setCurrencySymbol(responseObj.getString("currencySymbol"));
                 product.setCorrectUrl(responseObj.getString("correctUrl"));
                 product.setCurrentPrice(responseObj.getDouble("currentPrice"));
+                product.setRating(responseObj.getDouble("rating"));
             }
             product.setProductTitle(responseObj.getString("productTitle"));
             product.setSoldBy(responseObj.getString("soldBy"));
-            try {
-                product.setRating(Double.parseDouble(responseObj.getString("productRating").substring(0, responseObj.getString("productRating").indexOf(' '))));
-            } catch (Exception e) {
-                product.setRating(0);
-            }
             product.setTargetPrice(product.getCurrentPrice());
             productList.add(product);
 
@@ -301,8 +298,8 @@ public class MainActivity extends AppCompatActivity {
             if (from == Finals.WEBVIEW)
                 snackBarMessage("          The item has successfully added to tracklist!");
             else
-                snackBarMessage("          Item loaded successfully");
-            
+                snackBarMessage("          Items loaded successfully");
+
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("loadTrackListExcept", Objects.requireNonNull(e.getMessage()));
@@ -311,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void snackBarMessage(String msg) {
-        Snackbar.make(fab, msg, Snackbar.LENGTH_LONG)
+        Snackbar.make(fab, msg, BaseTransientBottomBar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
 
