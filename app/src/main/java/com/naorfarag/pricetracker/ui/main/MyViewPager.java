@@ -13,7 +13,7 @@ import java.util.Objects;
 
 
 public class MyViewPager extends ViewPager {
-    private boolean pagingEnabled = true;
+    private boolean pagingEnabled = false;
     private float screenY;
     private float screenX;
 
@@ -35,17 +35,17 @@ public class MyViewPager extends ViewPager {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         if (event.getY(event.getActionIndex()) < screenY / 6)
-            return false && super.onInterceptTouchEvent(event);
+            return pagingEnabled /*false*/ && super.onInterceptTouchEvent(event);
         else
-            return false /*true - enables swipe*/ && super.onInterceptTouchEvent(event);
+            return pagingEnabled /*true - enables swipe*/ && super.onInterceptTouchEvent(event);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getY(event.getActionIndex()) < screenY / 6)
-            return false && super.onTouchEvent(event);
+            return pagingEnabled /*false*/ && super.onTouchEvent(event);
         else
-            return false /*true - enables swipe*/ && super.onTouchEvent(event);
+            return pagingEnabled /*true - enables swipe*/ && super.onTouchEvent(event);
     }
 
     public void setScreenSize() {

@@ -1,11 +1,15 @@
 package com.naorfarag.pricetracker.lv.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Product {
     private String productTitle;
     private String mainImage;
     private String soldBy;
     private String currencySymbol;
-    private String url;
+    private String originalUrl;
+    private String correctUrl;
     private double rating;
     private double currentPrice;
     private double targetPrice;
@@ -89,11 +93,33 @@ public class Product {
         return getCurrencySymbol() + String.valueOf(getTargetPrice());
     }
 
-    public String getUrl() {
-        return url;
+    public String getOriginalUrl() {
+        return originalUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setOriginalUrl(String originalUrl) {
+        this.originalUrl = originalUrl;
+    }
+
+    public String getCorrectUrl() {
+        return correctUrl;
+    }
+
+    public void setCorrectUrl(String correctUrl) {
+        this.correctUrl = correctUrl;
+    }
+
+    public Map<String, Object> convertToMap(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("productTitle", productTitle);
+        map.put("mainImage", mainImage);
+        map.put("soldBy", soldBy);
+        map.put("currencySymbol", currencySymbol);
+        map.put("originalUrl", originalUrl);
+        map.put("correctUrl", correctUrl);
+        map.put("rating", rating);
+        map.put("currentPrice", currentPrice);
+        map.put("targetPrice", targetPrice);
+        return  map;
     }
 }

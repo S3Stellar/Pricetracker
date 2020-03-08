@@ -1,6 +1,5 @@
 package com.naorfarag.pricetracker.lv.app;
 
-import com.naorfarag.pricetracker.lv.util.LruBitmapCache;
 import android.app.Application;
 import android.text.TextUtils;
 
@@ -8,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.naorfarag.pricetracker.lv.util.LruBitmapCache;
 
 public class AppController extends Application {
 

@@ -5,9 +5,12 @@
 
     <ListView
         android:id="@+id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/cartListMargin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/cartListMargin"
+        android:layout_marginTop="@dimen/cartListMargin"
+        android:layout_marginEnd="@dimen/cartListMargin"
+        android:layout_marginBottom="@dimen/cartListMargin"
         android:divider="@color/list_divider"
         android:dividerHeight="2dp"
         android:listSelector="@drawable/list_row_selector" />

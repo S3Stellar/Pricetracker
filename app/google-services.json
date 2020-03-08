@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "802590888241",
+    "firebase_url": "https://ptracker-dfe92.firebaseio.com",
+    "project_id": "ptracker-dfe92",
+    "storage_bucket": "ptracker-dfe92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802590888241:android:62d47e6451ba53155f2010",
+        "android_client_info": {
+          "package_name": "com.naorfarag.pricetracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "802590888241-3t3mp4hhvfn0limt5jtf8ocg0d7hfvgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8bycDNkLp-TCKCKIuX2t0OuamlCBZpY8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "802590888241-3t3mp4hhvfn0limt5jtf8ocg0d7hfvgt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

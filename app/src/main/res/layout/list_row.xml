@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/list_row_selector"
         android:padding="8dp">
-        <!--  tools:context=".CartFragment"-->
 
         <!-- Main Image -->
         <com.android.volley.toolbox.NetworkImageView

@@ -13,13 +13,14 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CustomJsonObjectRequest extends JsonObjectRequest {
+
     public CustomJsonObjectRequest(int method, String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
         super(method, url, jsonRequest, listener, errorListener);
         try {
             getHeaders();
         } catch (AuthFailureError authFailureError) {
             authFailureError.printStackTrace();
-            Log.d("Autherror", Objects.requireNonNull(authFailureError.getMessage()));
+            Log.d("AuthError", Objects.requireNonNull(authFailureError.getMessage()));
         }
     }
 

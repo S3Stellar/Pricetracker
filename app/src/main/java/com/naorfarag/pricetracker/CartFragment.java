@@ -1,19 +1,18 @@
 package com.naorfarag.pricetracker;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class CartFragment extends Fragment {
-    View view;
+    private View view;
 
     public CartFragment() {
         // Required empty public constructor
@@ -27,4 +26,5 @@ public class CartFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_cart, container, false);
         return view;
     }
+
 }

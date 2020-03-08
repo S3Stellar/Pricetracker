@@ -1,13 +1,12 @@
 package com.naorfarag.pricetracker.lv.util;
 
-import com.android.volley.toolbox.ImageLoader.ImageCache;
-
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
+import com.android.volley.toolbox.ImageLoader.ImageCache;
 
-public class LruBitmapCache extends LruCache<String, Bitmap> implements
-        ImageCache {
+
+public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCache {
     public static int getDefaultLruCacheSize() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         final int cacheSize = maxMemory / 8;
