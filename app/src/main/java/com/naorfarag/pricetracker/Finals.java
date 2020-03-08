@@ -18,4 +18,6 @@ public final class Finals {
             R.drawable.carticon
     };
 
+    public static final int FIRESTORE = 1;
+    public static final int WEBVIEW = 0;
 }

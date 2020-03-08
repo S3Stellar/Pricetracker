@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -24,20 +25,29 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.naorfarag.pricetracker.lv.adapter.CustomListAdapter;
 import com.naorfarag.pricetracker.lv.app.AppController;
 import com.naorfarag.pricetracker.lv.model.Product;
 import com.naorfarag.pricetracker.ui.main.MyViewPager;
 import com.naorfarag.pricetracker.ui.main.SectionsPagerAdapter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,6 +73,9 @@ public class MainActivity extends AppCompatActivity {
     private List<Product> productList = new ArrayList<>();
     private ArrayList<String> urlsInTracklist = new ArrayList<>();
     private boolean trackListLoaded = false;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private boolean firstTime = true;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -92,11 +105,39 @@ public class MainActivity extends AppCompatActivity {
         startAddButtonListener();
     }
 
+    private void loadProductsFromDatabase() {
+        /*ApiFuture<QuerySnapshot> future = (ApiFuture<QuerySnapshot>) db.collection("products").get();
+        List<DocumentSnapshot> documents = null;
+        try {
+            documents = future.get().getDocuments();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        db.collection("products")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                JSONObject obj = mapToJSON(document.getData());
+                                addProductToTrackList(obj, "", Finals.FIRESTORE);
+                            }
+                        } else {
+                            Log.d("TAG", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+      /*  for (DocumentSnapshot document : documents) {
+            JSONObject obj = mapToJSON(document.getData());
+            addProductToTrackList(obj, "", Finals.FIRESTORE);
+        }*/
+    }
+
     private void getJsonFromProductURL(final String url) {
-        pDialog = new ProgressDialog(context);
-        pDialog.setMessage("Loading...");
-        pDialog.setCancelable(false);
-        pDialog.show();
+        showLoadingDialog();
         jsonObjReq = new CustomJsonObjectRequest(com.android.volley.Request.Method.GET,
                 "https://axesso-axesso-amazon-data-service-v1.p.rapidapi.com/amz/amazon-lookup-product?url=" + url, null, new Response.Listener<JSONObject>() {
 
@@ -104,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 Log.d("responseTAGsuccess", response.toString());
                 urlsInTracklist.add(sf.getUrl());
-                loadTrackList(response, url);
+                addProductToTrackList(response, url, Finals.WEBVIEW);
                 hidePDialog();
             }
         }, new Response.ErrorListener() {
@@ -125,15 +166,22 @@ public class MainActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(jsonObjReq);
     }
 
+    private void showLoadingDialog() {
+        pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Loading...");
+        pDialog.setCancelable(false);
+        pDialog.show();
+    }
+
     private void startAddButtonListener() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 vibrate();
                 if (sf != null) {
-                    try{
+                    try {
                         sf.getUrl();
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         return;
                     }
                     if (urlsInTracklist.contains(sf.getUrl())) {
@@ -193,7 +241,12 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.trackList_layout_color));
                     findViewById(R.id.fab).setVisibility(View.INVISIBLE);
+                    if (firstTime) {
+                        showLoadingDialog();
+                        loadProductsFromDatabase();
+                    }
                 }
+                firstTime = false;
             }
 
             @Override
@@ -206,46 +259,50 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadTrackList(JSONObject responseObj, String url) {
+    private void addProductToTrackList(JSONObject responseObj, String correctUrl, int from) {
         if (!trackListLoaded) {
             listView = findViewById(R.id.list);
             listView.setAdapter(customListAdapter);
-
-/*            listView.setClickable(true);
-            listView.setDescendantFocusability(ListView.FOCUS_BLOCK_DESCENDANTS);*/
-            Log.d("ItemListener", "Listener activated! ");
-            //setItemClickListener();
             trackListLoaded = true;
         }
         try {
             Product product = new Product();
             product.setOriginalUrl(sf.getUrl());
-            product.setCorrectUrl(url);
+            if (from == Finals.WEBVIEW) {
+                product.setCorrectUrl(correctUrl);
+                product.setMainImage(responseObj.getJSONObject("mainImage").getString("imageUrl"));
+                product.setCurrencySymbol(responseObj.getJSONObject("currency").getString("symbol"));
+                if (responseObj.getDouble("dealPrice") > 0)
+                    product.setCurrentPrice(responseObj.getDouble("dealPrice"));
+                else if (responseObj.getDouble("salePrice") > 0)
+                    product.setCurrentPrice(responseObj.getDouble("salePrice"));
+                else if (responseObj.getDouble("price") > 0) {
+                    product.setCurrentPrice(responseObj.getDouble("price"));
+                } else {
+                    product.setCurrentPrice(responseObj.getDouble("retailPrice"));
+                }
+            } else {
+                product.setMainImage(responseObj.getString("mainImage"));
+                product.setCurrencySymbol(responseObj.getString("currencySymbol"));
+                product.setCorrectUrl(responseObj.getString("correctUrl"));
+                product.setCurrentPrice(responseObj.getDouble("currentPrice"));
+            }
             product.setProductTitle(responseObj.getString("productTitle"));
-            product.setMainImage(responseObj.getJSONObject("mainImage").getString("imageUrl"));
             product.setSoldBy(responseObj.getString("soldBy"));
-            product.setCurrencySymbol(responseObj.getJSONObject("currency").getString("symbol"));
             try {
                 product.setRating(Double.parseDouble(responseObj.getString("productRating").substring(0, responseObj.getString("productRating").indexOf(' '))));
             } catch (Exception e) {
                 product.setRating(0);
             }
-
-            if (responseObj.getDouble("dealPrice") > 0)
-                product.setCurrentPrice(responseObj.getDouble("dealPrice"));
-            else if (responseObj.getDouble("salePrice") > 0)
-                product.setCurrentPrice(responseObj.getDouble("salePrice"));
-            else if (responseObj.getDouble("price") > 0) {
-                product.setCurrentPrice(responseObj.getDouble("price"));
-            } else {
-                product.setCurrentPrice(responseObj.getDouble("retailPrice"));
-            }
             product.setTargetPrice(product.getCurrentPrice());
-            // adding movie to movies array
             productList.add(product);
-            Snackbar.make(fab, "          The item has successfully added to tracklist!", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
 
+            hidePDialog();
+            if (from == Finals.WEBVIEW)
+                snackBarMessage("          The item has successfully added to tracklist!");
+            else
+                snackBarMessage("          Item loaded successfully");
+            
         } catch (JSONException e) {
             e.printStackTrace();
             Log.d("loadTrackListExcept", Objects.requireNonNull(e.getMessage()));
@@ -253,6 +310,46 @@ public class MainActivity extends AppCompatActivity {
         customListAdapter.notifyDataSetChanged();
     }
 
+    private void snackBarMessage(String msg) {
+        Snackbar.make(fab, msg, Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
+    private JSONObject mapToJSON(Map<String, Object> map) {
+        JSONObject obj = new JSONObject();
+        try {
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                if (value instanceof Map) {
+                    Map<String, Object> subMap = (Map<String, Object>) value;
+                    obj.put(key, mapToJSON(subMap));
+                } else if (value instanceof List) {
+                    obj.put(key, listToJSONArray((List) value));
+                } else {
+
+                    obj.put(key, value);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
+    private JSONArray listToJSONArray(List<Object> list) {
+        JSONArray arr = new JSONArray();
+        for (Object obj : list) {
+            if (obj instanceof Map) {
+                arr.put(mapToJSON((Map) obj));
+            } else if (obj instanceof List) {
+                arr.put(listToJSONArray((List) obj));
+            } else {
+                arr.put(obj);
+            }
+        }
+        return arr;
+    }
 
     @Override
     public void onDestroy() {
