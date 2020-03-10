@@ -1,47 +1,25 @@
 
-Y	java:S125ú"<This block of commented-out lines of code should be removed.(ö¡¸Ü8¥ƒ›ğŠ.
-d
-java:S3027¥"FPut single-quotes around '{' to use the faster "indexOf(char)" method.(‹–•­8¥ƒ›ğŠ.
-T
-java:S2696"6Make the enclosing method "static" or remove this set.(ñ€×à8¥ƒ›ğŠ.
-v	java:S1151"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(Ûõû¤8¶‘ÛàŠ.
-^	java:S125«"<This block of commented-out lines of code should be removed.(¶ˆšåÿÿÿÿÿ8¥ƒ›ğŠ.
-X	java:S125l"<This block of commented-out lines of code should be removed.(¾şÂ8¥ƒ›ğŠ.
-p
-java:S3776Ç"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(êÏÜı8¥ƒ›ğŠ.
-^	java:S125 "<This block of commented-out lines of code should be removed.(—ü™úÿÿÿÿ8¥ƒ›ğŠ.
+]	java:S125~"<This block of commented-out lines of code should be removed.(¾å¬åûÿÿÿÿ8ôâƒê‹.
+n
+java:S1192Î"KDefine a constant instead of duplicating this literal "correctUrl" 3 times.(¬Š£‹øÿÿÿÿ8£Òñ‘Œ.
+X
+java:S1141§"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8ôâƒê‹.
+W
+java:S1444J"5Make this "public static urlsInTracklist" field final(¾Î˜ùşÿÿÿÿ8•í¶Œ.
 ¤
-java:S1186ÿ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(½Ä³ïşÿÿÿÿ8¥ƒ›ğŠ.
-i
-java:S3027Î"FPut single-quotes around '/' to use the faster "indexOf(char)" method.(½Ì²÷üÿÿÿÿ8¥ƒ›ğŠ.
-^	java:S125ª"<This block of commented-out lines of code should be removed.(‹ÒÄÙşÿÿÿÿ8¥ƒ›ğŠ.
-D
-java:S10681"'Remove this unused "url" private field.(Ûõû¤8òî”ìŠ.
-X	java:S125o"<This block of commented-out lines of code should be removed.(İÌ¡‡8¥ƒ›ğŠ.
-h
-java:S3027¥"JPut single-quotes around '}' to use the faster "lastIndexOf(char)" method.(‹–•­8¥ƒ›ğŠ.
-N
-java:S10688",Remove this unused "response" private field.(®›†œúÿÿÿÿ8éššìŠ.
-Š
-java:S3252¾"gUse static access with "com.google.android.material.snackbar.BaseTransientBottomBar" for "LENGTH_LONG".(ñµœØøÿÿÿÿ8¥ƒ›ğŠ.
-P
-java:S1068B".Remove this unused "currentUrl" private field.(ÅÛ®âşÿÿÿÿ8úö³ğŠ.
+java:S1186„"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(½Ä³ïşÿÿÿÿ8ôâƒê‹.
+p
+java:S3776Ö"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(êÏÜı8ôâƒê‹.
+?
+java:S2386J"Make this member "protected".(¾Î˜ùşÿÿÿÿ8•í¶Œ.
+]	java:S125y"<This block of commented-out lines of code should be removed.(¾å¬åûÿÿÿÿ8ôâƒê‹.
+Y	java:S125œ"<This block of commented-out lines of code should be removed.(Âúåª8ôâƒê‹.
+Y	java:S125’"<This block of commented-out lines of code should be removed.(ÎÒ†Û8Í•¶ÿ‹.
+^	java:S125ƒ"<This block of commented-out lines of code should be removed.(¾å¬åûÿÿÿÿ8ôâƒê‹.
+œ
+java:S1319J"zThe type of the "urlsInTracklist" object should be an interface such as "List" rather than the implementation "ArrayList".(¾Î˜ùşÿÿÿÿ8•í¶Œ.
 Ÿ
-java:S1186ƒ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¦›Í8¥ƒ›ğŠ.
-N
-java:S1068<"1Remove this unused "respondStatus" private field.(ˆ³Ø”8ÑÌåïŠ.
-Y	java:S125õ"<This block of commented-out lines of code should be removed.(áÒïû8¥ƒ›ğŠ.
-F
-java:S1148©"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8¥ƒ›ğŠ.
-F
-java:S1148œ"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8¥ƒ›ğŠ.
-o
-java:S1128"MRemove this unused import 'com.naorfarag.pricetracker.ui.main.PageViewModel'.(âğïşÿÿÿÿ8Ä±üîŠ.
-y
-java:S14504"WRemove the "listView" field and declare it as a local variable in the relevant methods.(¯¤½ñûÿÿÿÿ8¶‘ÛàŠ.
-F
-java:S1148±"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8¥ƒ›ğŠ.
-T
-java:S2696¯"6Make the enclosing method "static" or remove this set.(ñ€×à8¥ƒ›ğŠ.
-…
-java:S1450?"cRemove the "sectionsPagerAdapter" field and declare it as a local variable in the relevant methods.(ïÛ’Ûøÿÿÿÿ8¶‘ÛàŠ.
+java:S1186ˆ"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¦›Í8ôâƒê‹.
+}
+java:S1104J"[Make urlsInTracklist a static final constant or non-public and provide accessors if needed.(¾Î˜ùşÿÿÿÿ8•í¶Œ.
+F	java:S108·")Either remove or fill this block of code.(”ı¾8‡Òÿì‹.

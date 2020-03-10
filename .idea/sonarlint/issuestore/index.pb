@@ -1,10 +1,6 @@
 
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
-w
-Gapp/src/main/java/com/naorfarag/pricetracker/ui/main/PageViewModel.java,d\6\d63b20dd2b6e82dc8318c5ca18bccfbf26b686ca
-}
-Mapp/src/main/java/com/naorfarag/pricetracker/ui/main/PlaceholderFragment.java,7\6\76353d8f145c09da17f66ee6df8974bc9b449977
 n
 >app/src/main/java/com/naorfarag/pricetracker/MainActivity.java,a\f\af04fe4b4a69c3bae4bab670fb81afe039c11226
 ~
@@ -31,5 +27,15 @@ S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
 h
 8app/src/main/java/com/naorfarag/pricetracker/Finals.java,b\8\b8f6bc1dae5f5a71de0d8defa92b8b82096490e4
-o
-?app/src/main/java/com/naorfarag/pricetracker/NameViewModel.java,7\1\71d5e9360941ec4de9e74db86ee9a84f618d75aa
+_
+/app/src/main/res/drawable/list_row_bg_hover.xml,5\8\58946252d2dd4244df90870e3660a4b81e4124d0
+K
+.idea/dictionaries/Naor.xml,b\7\b78ec02b58ab135fc913690854ab17ea4d0b78ce
+?
+settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
+y
+Iapp/src/main/java/com/naorfarag/pricetracker/CustomJsonObjectRequest.java,1\d\1d8d4d5634b4f4bbeee0cde46fc7410fe3cb07db
+H
+app/google-services.json,f\d\fd8d34b142d02ec743a8efefefd2c097961666e9
+l
+<app/src/main/java/com/naorfarag/pricetracker/MyListView.java,9\0\90a973825d3e459de313ab7fa620d1be02e9df35

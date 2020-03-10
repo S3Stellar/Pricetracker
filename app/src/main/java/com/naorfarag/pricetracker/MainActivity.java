@@ -3,6 +3,7 @@ package com.naorfarag.pricetracker;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
@@ -25,7 +27,9 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -58,10 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog pDialog;
 
     private FloatingActionButton fab;
-    private Toolbar toolbar;
 
-    private SectionsPagerAdapter sectionsPagerAdapter;
-    private MyViewPager viewPager;
     private TabLayout tabs;
 
     private CartFragment cf = new CartFragment();
@@ -70,11 +71,10 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private CustomListAdapter customListAdapter;
     private List<Product> productList = new ArrayList<>();
-    private ArrayList<String> urlsInTracklist = new ArrayList<>();
-    private boolean trackListLoaded = false;
+    public static ArrayList<String> urlsInTracklist = new ArrayList<>();
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private boolean firstTime = true;
+    private boolean loadedFromDatabase = false;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -83,13 +83,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = this;
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         fab = findViewById(R.id.fab);
         tabs = findViewById(R.id.tabs);
-        viewPager = findViewById(R.id.view_pager);
-        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        MyViewPager viewPager = findViewById(R.id.view_pager);
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
 
         sectionsPagerAdapter.addFragment(sf, context.getResources().getString(Finals.TAB_TITLES[0]));
         sectionsPagerAdapter.addFragment(cf, context.getResources().getString(Finals.TAB_TITLES[1]));
@@ -105,30 +105,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadProductsFromDatabase() {
-        /*ApiFuture<QuerySnapshot> future = (ApiFuture<QuerySnapshot>) db.collection("products").get();
-        List<DocumentSnapshot> documents = null;
-        try {
-            documents = future.get().getDocuments();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-        db.collection("products")
+        db.collection(CustomListAdapter.getUniqueID())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 JSONObject obj = mapToJSON(document.getData());
                                 addProductToTrackList(obj, "", Finals.FIRESTORE);
                             }
                         } else {
                             Log.d("TAG", "Error getting documents: ", task.getException());
                         }
+                        //hidePDialog();
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //hidePDialog();
+            }
+        }).addOnCanceledListener(new OnCanceledListener() {
+            @Override
+            public void onCanceled() {
+                //hidePDialog();
+            }
+        });
     }
 
     private void getJsonFromProductURL(final String url) {
@@ -139,9 +141,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d("responseTAGsuccess", response.toString());
-                urlsInTracklist.add(sf.getUrl());
                 addProductToTrackList(response, url, Finals.WEBVIEW);
                 hidePDialog();
+                listView.setSelection(customListAdapter.getCount() - 1);
             }
         }, new Response.ErrorListener() {
 
@@ -162,9 +164,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showLoadingDialog() {
+        hidePDialog();
         pDialog = new ProgressDialog(context);
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
+        pDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (jsonObjReq != null)
+                    jsonObjReq.cancel();
+                hidePDialog();
+            }
+        });
         pDialog.show();
     }
 
@@ -173,20 +184,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 vibrate();
+                String correctUrl;
                 if (sf != null) {
                     try {
                         sf.getUrl();
                     } catch (Exception e) {
                         return;
                     }
-                    if (urlsInTracklist.contains(sf.getUrl())) {
+
+                    Log.d("MyTracklist: ", urlsInTracklist.toString());
+                    correctUrl = checkAndFixProductURL(sf.getUrl());
+                    if (urlsInTracklist.contains(correctUrl)) {
                         Toast.makeText(getApplicationContext(),
                                 "Product already in tracklist!", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 } else return;
 
-                String correctUrl = checkAndFixProductURL(sf.getUrl());
                 Log.i("OriginalURL: ", sf.getUrl());
                 if (correctUrl != null) {
                     Log.i("correctUrl", correctUrl);
@@ -236,12 +250,10 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.trackList_layout_color));
                     findViewById(R.id.fab).setVisibility(View.INVISIBLE);
-                    if (firstTime) {
-                        showLoadingDialog();
+                    if (!loadedFromDatabase) {
                         loadProductsFromDatabase();
                     }
                 }
-                firstTime = false;
             }
 
             @Override
@@ -255,18 +267,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addProductToTrackList(JSONObject responseObj, String correctUrl, int from) {
-        if (!trackListLoaded) {
+        if (!loadedFromDatabase) {
             listView = findViewById(R.id.list);
             listView.setAdapter(customListAdapter);
-            trackListLoaded = true;
+            loadedFromDatabase = true;
+            //swipe();
         }
         try {
             Product product = new Product();
-            product.setOriginalUrl(sf.getUrl());
             if (from == Finals.WEBVIEW) {
+                urlsInTracklist.add(correctUrl);
+                product.setOriginalUrl(sf.getUrl());
                 product.setCorrectUrl(correctUrl);
                 product.setMainImage(responseObj.getJSONObject("mainImage").getString("imageUrl"));
                 product.setCurrencySymbol(responseObj.getJSONObject("currency").getString("symbol"));
+
                 if (responseObj.getDouble("dealPrice") > 0)
                     product.setCurrentPrice(responseObj.getDouble("dealPrice"));
                 else if (responseObj.getDouble("salePrice") > 0)
@@ -282,23 +297,23 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     product.setRating(0);
                 }
+                snackBarMessage("          The item has successfully added to tracklist!");
+                Log.d("Count", "setSelection");
             } else {
+                urlsInTracklist.add(responseObj.getString("correctUrl"));
+                product.setOriginalUrl(responseObj.getString("originalUrl"));
                 product.setMainImage(responseObj.getString("mainImage"));
                 product.setCurrencySymbol(responseObj.getString("currencySymbol"));
                 product.setCorrectUrl(responseObj.getString("correctUrl"));
                 product.setCurrentPrice(responseObj.getDouble("currentPrice"));
                 product.setRating(responseObj.getDouble("rating"));
+                snackBarMessage("          Items loaded successfully");
             }
+            product.setAsin(responseObj.getString("asin"));
             product.setProductTitle(responseObj.getString("productTitle"));
             product.setSoldBy(responseObj.getString("soldBy"));
             product.setTargetPrice(product.getCurrentPrice());
             productList.add(product);
-
-            hidePDialog();
-            if (from == Finals.WEBVIEW)
-                snackBarMessage("          The item has successfully added to tracklist!");
-            else
-                snackBarMessage("          Items loaded successfully");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -414,5 +429,16 @@ public class MainActivity extends AppCompatActivity {
         int canBack = sf.onBackPressed();
         if (canBack == -1)
             super.onBackPressed();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        try {
+            if (listView != null)
+                listView.onTouchEvent(event);
+        } catch (Exception e) {
+
+        }
+        return false;
     }
 }

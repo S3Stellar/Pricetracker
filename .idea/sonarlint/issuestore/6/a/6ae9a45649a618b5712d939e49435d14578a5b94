@@ -1,5 +1,15 @@
 
-S
-java:S1153T"1Directly append the argument of String.valueOf().(Œâˆéşÿÿÿÿ8÷½§ëŠ.
-N
-java:S1153Q"1Directly append the argument of String.valueOf().(çïß³8÷½§ëŠ.
+I
+java:S1172£"&Remove these unused method parameters.(ôå§íşÿÿÿÿ8ĞÃÃ’Œ.
+W	java:S125r"<This block of commented-out lines of code should be removed.(Ú´İ8ƒ„½’Œ.
+l
+java:S1192"IDefine a constant instead of duplicating this literal "products" 3 times.(Ì”ÿÿÿÿÿ8Ñ†ĞŒ.
+M
+java:S1068)"0Remove this unused "isDeleteOpen" private field.(ŸšĞá8ĞÃÃ’Œ.
+M
+java:S1128"0Remove this unused import 'android.media.Image'.(ëïøÂ8¾ºË’Œ.
+^	java:S125Ä"<This block of commented-out lines of code should be removed.(Ëµºåüÿÿÿÿ8à¤‰’Œ.
+Y	java:S125Ü"<This block of commented-out lines of code should be removed.(£²˜»8™åŸŒ.
+Y	java:S125Ê"<This block of commented-out lines of code should be removed.(ìãŸë8ĞÃÃ’Œ.
+D
+java:S1172î"&Remove these unused method parameters.(ƒ‹Î÷8áî‰Œ.

@@ -1,8 +1,15 @@
 
-X	java:S125)"<This block of commented-out lines of code should be removed.(—ä¥³8ç£×Š.
-]	java:S125,"<This block of commented-out lines of code should be removed.(©é‡øüÿÿÿÿ8ÂÛí¾Š.
-X	java:S125&"<This block of commented-out lines of code should be removed.(½›ÎÔ8ç£×Š.
-m
-java:S1301$"KReplace this "switch" statement by "if" statements to increase readability.(¼œóÛüÿÿÿÿ8‹‘Š.
+W
+java:S1128":Remove this unused import 'androidx.annotation.StringRes'.(‚ˆñ8·üÈ¸‹.
+f
+java:S1128"DRemove this unused import 'com.naorfarag.pricetracker.CartFragment'.(§Èí´ÿÿÿÿÿ8·üÈ¸‹.
+I
+java:S1068",Remove this unused "mContext" private field.(ªœÙŠ8æüÙ±‹.
+h
+java:S1128"FRemove this unused import 'com.naorfarag.pricetracker.SearchFragment'.(š¸ôáüÿÿÿÿ8·üÈ¸‹.
+[
+java:S1128"9Remove this unused import 'com.naorfarag.pricetracker.R'.(óê³„ùÿÿÿÿ8·üÈ¸‹.
+U
+java:S1128"8Remove this unused import 'androidx.annotation.NonNull'.(ˆÛúÜ8·üÈ¸‹.
 X
-java:S1874"<Remove this use of "FragmentPagerAdapter"; it is deprecated.(‘í›\8ĞÓîŠ.
+java:S1874"<Remove this use of "FragmentPagerAdapter"; it is deprecated.(‘í›\8¥ÕÂı‹.

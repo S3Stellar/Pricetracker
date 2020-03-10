@@ -39,12 +39,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //https://github.com/ISchwarz23/Amazon-Product-Advertising-API-URL-Builder
-    //implementation 'de.codecrafters.apaarb:apaarb:0.9.1'
+
     implementation 'org.json:json:20190722'
 
-    /*implementation 'com.rapidapi:rapidconnect-android:0.1'
-    implementation("com.squareup.okhttp3:okhttp:4.4.0")*/
     implementation 'com.mcxiaoke.volley:library-aar:1.0.1'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -53,11 +50,13 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    //swipe menu
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
     implementation 'com.google.firebase:firebase-firestore:21.4.1'
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
     implementation group: 'com.google.api', name: 'api-common', version: '1.8.1'
-    /*implementation 'com.google.api-client:google-api-client:1.23.0'*/
-    /*implementation 'com.google.api-client:google-api-client-android:1.23.0'*/
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

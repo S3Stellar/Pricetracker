@@ -1,97 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_layout1"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:elevation="8dp"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:hapticFeedbackEnabled="true"
-    card_view:cardBackgroundColor="@android:color/transparent"
-    card_view:cardCornerRadius="8dp"
-    card_view:cardElevation="8dp"
-    card_view:cardUseCompatPadding="true"
-    card_view:contentPadding="0dp">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/list_row_selector"
-        android:padding="8dp">
+    <LinearLayout
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-        <!-- Main Image -->
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/thumbnail"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginEnd="8dp" />
-
-        <!-- Product title -->
-        <TextView
-            android:id="@+id/title"
+        <ImageView
+            android:id="@+id/priceButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/thumbnail"
-            android:layout_toEndOf="@+id/thumbnail"
-            android:textSize="@dimen/title"
-            android:textStyle="bold" />
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:src="@drawable/prices_settings_img" />
 
-        <LinearLayout
-            android:id="@+id/soldRatingLayout"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title"
-            android:layout_toEndOf="@id/thumbnail"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_weight="1"
+            android:src="@drawable/deletebutt" />
 
-            <!-- Sold By -->
-            <TextView
-                android:id="@+id/soldBy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dip"
-                android:layout_weight="1"
-                android:textSize="@dimen/rating"
-                tools:ignore="RtlHardcoded" />
 
-            <!-- Rating -->
-            <TextView
-                android:id="@+id/rating"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dip"
-                android:layout_weight="2"
-                android:textSize="@dimen/rating"
-                tools:ignore="RtlHardcoded" />
-        </LinearLayout>
+    </LinearLayout>
 
-        <!-- Current price -->
-        <TextView
-            android:id="@+id/currentPrice"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:hapticFeedbackEnabled="true"
+        card_view:cardBackgroundColor="@android:color/transparent"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="8dp"
+        card_view:cardUseCompatPadding="true">
+
+
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/soldRatingLayout"
-            android:layout_marginTop="5dp"
-            android:layout_toEndOf="@+id/thumbnail"
-            android:textColor="@color/genre"
-            android:textSize="@dimen/currentPrice"
-            android:textStyle="bold" />
+            android:background="@drawable/list_row_selector"
+            android:padding="8dp">
 
-        <!-- Target price -->
-        <TextView
-            android:id="@+id/targetPrice"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/currentPrice"
-            android:layout_marginTop="5dp"
-            android:layout_toEndOf="@+id/thumbnail"
-            android:textColor="@color/genre"
-            android:textSize="@dimen/currentPrice"
-            android:textStyle="bold" />
+            <!-- Main Image -->
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="8dp" />
 
-    </RelativeLayout>
-</androidx.cardview.widget.CardView>
+            <!-- Product title -->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/thumbnail"
+                android:layout_toEndOf="@+id/thumbnail"
+                android:textSize="@dimen/title"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/soldRatingLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:layout_toEndOf="@id/thumbnail"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <!-- Sold By -->
+                <TextView
+                    android:id="@+id/soldBy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dip"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/rating"
+                    tools:ignore="RtlHardcoded" />
+
+                <!-- Rating -->
+                <TextView
+                    android:id="@+id/rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dip"
+                    android:layout_weight="2"
+                    android:textSize="@dimen/rating"
+                    tools:ignore="RtlHardcoded" />
+            </LinearLayout>
+
+            <!-- Current price -->
+            <TextView
+                android:id="@+id/currentPrice"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/soldRatingLayout"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/thumbnail"
+                android:textColor="@color/genre"
+                android:textSize="@dimen/currentPrice"
+                android:textStyle="bold" />
+
+            <!-- Target price -->
+            <TextView
+                android:id="@+id/targetPrice"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/currentPrice"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/thumbnail"
+                android:textColor="@color/genre"
+                android:textSize="@dimen/currentPrice"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</com.daimajia.swipe.SwipeLayout>

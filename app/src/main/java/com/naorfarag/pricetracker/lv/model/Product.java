@@ -10,6 +10,7 @@ public class Product {
     private String currencySymbol;
     private String originalUrl;
     private String correctUrl;
+    private String asin;
     private double rating;
     private double currentPrice;
     private double targetPrice;
@@ -18,7 +19,7 @@ public class Product {
     }
 
     public Product(String productTitle, String mainImage, String soldBy, String currencySymbol, double rating,
-                   double price) {
+                   double price, String asin) {
         this.productTitle = productTitle;
         this.mainImage = mainImage;
         this.soldBy = soldBy;
@@ -26,6 +27,7 @@ public class Product {
         this.rating = rating;
         this.currentPrice = price;
         this.targetPrice = price;
+        this.asin = asin;
     }
 
     public String getProductTitle() {
@@ -109,7 +111,15 @@ public class Product {
         this.correctUrl = correctUrl;
     }
 
-    public Map<String, Object> convertToMap(){
+    public String getAsin() {
+        return asin;
+    }
+
+    public void setAsin(String asin) {
+        this.asin = asin;
+    }
+
+    public Map<String, Object> convertToMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("productTitle", productTitle);
         map.put("mainImage", mainImage);
@@ -120,6 +130,7 @@ public class Product {
         map.put("rating", rating);
         map.put("currentPrice", currentPrice);
         map.put("targetPrice", targetPrice);
-        return  map;
+        map.put("asin", asin);
+        return map;
     }
 }
