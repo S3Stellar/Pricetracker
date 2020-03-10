@@ -19,7 +19,7 @@ public class CustomJsonObjectRequest extends JsonObjectRequest {
     public Map getHeaders() {
         Map<String, String> headers = new HashMap<>();
         headers.put("x-rapidapi-host", "axesso-axesso-amazon-data-service-v1.p.rapidapi.com");
-        headers.put("x-rapidapi-key", "163390d585mshe3218928e588b9fp1cd5c2jsn7add31f99e95");
+        headers.put("x-rapidapi-key", "163390d585mshe3218928e588b9fp1cd5c2jsn7add31f99e96");
         return headers;
     }
 }
