@@ -1,15 +1,18 @@
 
-I
-java:S1172£"&Remove these unused method parameters.(ôå§íşÿÿÿÿ8ĞÃÃ’Œ.
-W	java:S125r"<This block of commented-out lines of code should be removed.(Ú´İ8ƒ„½’Œ.
-l
-java:S1192"IDefine a constant instead of duplicating this literal "products" 3 times.(Ì”ÿÿÿÿÿ8Ñ†ĞŒ.
-M
-java:S1068)"0Remove this unused "isDeleteOpen" private field.(ŸšĞá8ĞÃÃ’Œ.
-M
-java:S1128"0Remove this unused import 'android.media.Image'.(ëïøÂ8¾ºË’Œ.
-^	java:S125Ä"<This block of commented-out lines of code should be removed.(Ëµºåüÿÿÿÿ8à¤‰’Œ.
-Y	java:S125Ü"<This block of commented-out lines of code should be removed.(£²˜»8™åŸŒ.
-Y	java:S125Ê"<This block of commented-out lines of code should be removed.(ìãŸë8ĞÃÃ’Œ.
+Y	java:S125â"<This block of commented-out lines of code should be removed.(£²˜»8Š¼×“Œ.
+W	java:S125t"<This block of commented-out lines of code should be removed.(Ú´İ8Š¼×“Œ.
+B
+java:S30104"%Remove this assignment of "uniqueID".(¤É«ğ8«ñİ•Œ.
+[
+java:S1128"?Remove this unused import 'android.telephony.TelephonyManager'.(Ìâû18ªõê•Œ.
+@
+java:S1128"Remove this duplicated import.(Ø½­äşÿÿÿÿ8ÅîÚ•Œ.
+^	java:S125Î"<This block of commented-out lines of code should be removed.(Ëµºåüÿÿÿÿ8Š¼×“Œ.
+…
+java:S3252“"gUse static access with "com.google.android.material.snackbar.BaseTransientBottomBar" for "LENGTH_LONG".(Ğœ­Á8†³Ø“Œ.
+;
+java:S1128"Remove this duplicated import.(©Ê‰è8ÅîÚ•Œ.
+
+java:S1186Ó"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(äÈÊm8Š¼×“Œ.
 D
-java:S1172î"&Remove these unused method parameters.(ƒ‹Î÷8áî‰Œ.
+java:S1172ô"&Remove these unused method parameters.(ƒ‹Î÷8Š¼×“Œ.

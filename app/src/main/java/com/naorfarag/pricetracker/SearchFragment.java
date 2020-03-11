@@ -29,7 +29,7 @@ public class SearchFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
-        String url = "https://www.amazon.com/";
+        String url = Finals.AMAZON_COM_HOMEPAGE;
         view = rootView.findViewById(R.id.webView);
 
         view.setWebViewClient(new WebViewClient());

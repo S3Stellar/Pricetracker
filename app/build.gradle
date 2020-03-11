@@ -53,6 +53,10 @@ dependencies {
     //swipe menu
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
 
+    // Animations
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.3@aar'
+
     implementation 'com.google.firebase:firebase-firestore:21.4.1'
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
     implementation group: 'com.google.api', name: 'api-common', version: '1.8.1'

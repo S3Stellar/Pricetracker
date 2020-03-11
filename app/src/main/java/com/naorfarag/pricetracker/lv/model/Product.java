@@ -1,5 +1,7 @@
 package com.naorfarag.pricetracker.lv.model;
 
+import com.naorfarag.pricetracker.Finals;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,7 +82,7 @@ public class Product {
     }
 
     public String getCurrentStringPrice() {
-        return getCurrencySymbol() + String.valueOf(getCurrentPrice());
+        return getCurrencySymbol() + getCurrentPrice();
     }
 
     public double getTargetPrice() {
@@ -92,7 +94,7 @@ public class Product {
     }
 
     public String getTargetStringPrice() {
-        return getCurrencySymbol() + String.valueOf(getTargetPrice());
+        return getCurrencySymbol() + getTargetPrice();
     }
 
     public String getOriginalUrl() {
@@ -121,16 +123,16 @@ public class Product {
 
     public Map<String, Object> convertToMap() {
         Map<String, Object> map = new HashMap<>();
-        map.put("productTitle", productTitle);
-        map.put("mainImage", mainImage);
-        map.put("soldBy", soldBy);
-        map.put("currencySymbol", currencySymbol);
-        map.put("originalUrl", originalUrl);
-        map.put("correctUrl", correctUrl);
-        map.put("rating", rating);
-        map.put("currentPrice", currentPrice);
-        map.put("targetPrice", targetPrice);
-        map.put("asin", asin);
+        map.put(Finals.PRODUCT_TITLE_ATTR, productTitle);
+        map.put(Finals.MAIN_IMAGE_ATTR, mainImage);
+        map.put(Finals.SOLD_BY_ATTR, soldBy);
+        map.put(Finals.CURRENCY_SYM_ATTR, currencySymbol);
+        map.put(Finals.ORIGINAL_URL_ATTR, originalUrl);
+        map.put(Finals.CORRECT_URL_ATTR, correctUrl);
+        map.put(Finals.RATING_ATTR, rating);
+        map.put(Finals.C_PRICE_ATTR, currentPrice);
+        map.put(Finals.T_PRICE_ATTR, targetPrice);
+        map.put(Finals.ASIN_ATTR, asin);
         return map;
     }
 }

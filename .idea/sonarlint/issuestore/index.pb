@@ -37,5 +37,5 @@ y
 Iapp/src/main/java/com/naorfarag/pricetracker/CustomJsonObjectRequest.java,1\d\1d8d4d5634b4f4bbeee0cde46fc7410fe3cb07db
 H
 app/google-services.json,f\d\fd8d34b142d02ec743a8efefefd2c097961666e9
-l
-<app/src/main/java/com/naorfarag/pricetracker/MyListView.java,9\0\90a973825d3e459de313ab7fa620d1be02e9df35
+Y
+)app/src/main/res/layout/fragment_cart.xml,d\3\d3847d71b9fb3999d0a292b8bcc79f28a6d6933d
