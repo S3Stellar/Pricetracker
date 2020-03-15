@@ -1,15 +1,14 @@
 package com.naorfarag.pricetracker;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-
 public final class Finals {
 
 
-    public static final int[] TAB_TITLES = new int[]{R.string.tab_search, R.string.tab_tracklist};
+    public static final int[] TAB_TITLES = new int[]{R.string.tab_search, R.string.tab_tracklist, R.string.tab_topdeals};
 
     public static final int[] tabIcons = {
             R.drawable.searchicon,
-            R.drawable.carticon
+            R.drawable.carticon,
+            R.drawable.topdeals
     };
 
     public static final int FIRESTORE = 1;
@@ -50,6 +49,8 @@ public final class Finals {
     public static final String RETAIL_RA_ATTR = "retailPrice";
     public static final String PRICE_RA_ATTR = "price";
     public static final String RATING_RA_ATTR = "productRating";
+    public static final String NULL_RA_ATTR = "NULL";
+    public static final String CURRENCY_SYM_SIGN = "$";
 
     // RapidAPI host, key & settings
     public static final String RAPID_API_HOST = "x-rapidapi-host";
@@ -64,6 +65,7 @@ public final class Finals {
 
     // Amazon pages & product page settings
     public static final String AMAZON_COM_HOMEPAGE = "https://www.amazon.com/";
+    public static final String AMAZON_TD_PAGE = "https://www.amazon.com/gp/goldbox/";
     public static final String AMAZON_NAME = "Amazon";
     public static final String AMAZON_PATTERN = "/([a-zA-Z0-9]{10})(?:[/?]|$)";
     public static final String PRODUCT_SLASH_TYPE = "product/";
@@ -73,6 +75,7 @@ public final class Finals {
 
     // Messages to user
     public static final String PRODUCT_ADDED_SUCC_MSG = "          The item has successfully added to tracklist!";
+    public static final String LOAD_PRODUCTS_FAILED_MSG = "          Loading tracklist products failed!" ;
     public static final String ITEMS_ADDED_SUCC_MSG = "          Items loaded successfully";
     public static final String ADD_TO_TRACKLIST_FAILED_MSG = "Adding to tracklist failed";
     public static final String ALREADY_IN_TRACKLIST_MSG = "Product already in tracklist!";
@@ -84,4 +87,18 @@ public final class Finals {
     // Logs MSGS
     public static final String LOAD_PRODUCTS_FAILED_LMSG = "Failed to load database";
 
+    // Util
+    public static final String GREEN_COLOR = "#A5DC86";
+
+    // Intent to restart service
+    public static final String RESTART_INTENT = "com.naorfarag.pricetracker.restarter";
+
+    // SharedPreference auto start key
+    public static final String AUTO_START = "AutoStart";
+
+    // From service caller
+    public static final int SERVICE_JOB_CALLER = 1;
+
+    // From main by user swipe to refresh
+    public static final int UPDATE_JOB_CALLER = 0;
 }

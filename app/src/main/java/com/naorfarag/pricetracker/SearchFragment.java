@@ -16,9 +16,17 @@ import androidx.fragment.app.Fragment;
  */
 public class SearchFragment extends Fragment {
     private WebView view;
+    private String amazonWebsite = Finals.AMAZON_COM_HOMEPAGE;
+    private int layout;
 
     public SearchFragment() {
+        this.layout = R.layout.fragment_search;
         // Required empty public constructor
+    }
+
+    public SearchFragment(String amazonWebsite, int layout) {
+        this.amazonWebsite = amazonWebsite;
+        this.layout = layout;
     }
 
 
@@ -26,23 +34,28 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView = inflater.inflate(layout, container, false);
 
-        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
-
-        String url = Finals.AMAZON_COM_HOMEPAGE;
-        view = rootView.findViewById(R.id.webView);
+        if (layout == R.layout.fragment_topdeals)
+            view = rootView.findViewById(R.id.webViewTopDeals);
+        else
+            view = rootView.findViewById(R.id.webViewSearch);
 
         view.setWebViewClient(new WebViewClient());
         view.getSettings().setSupportZoom(true);
         view.getSettings().setBuiltInZoomControls(true);
         view.getSettings().setDisplayZoomControls(false);
+        view.getSettings().setGeolocationEnabled(true);
+        view.getSettings().setSupportMultipleWindows(true);
 
         view.getSettings().setJavaScriptEnabled(true);
         view.getSettings().setAllowContentAccess(true);
         view.getSettings().setAppCacheEnabled(true);
         view.getSettings().setDomStorageEnabled(true);
         view.getSettings().setUseWideViewPort(true);
-        view.loadUrl(url);
+
+        view.getSettings().setAllowFileAccess(true);
+        view.loadUrl(amazonWebsite);
 
         return rootView;
     }

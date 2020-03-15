@@ -23,12 +23,8 @@ Bapp/src/main/java/com/naorfarag/pricetracker/lv/model/Product.java,7\d\7dd8289
 Napp/src/main/java/com/naorfarag/pricetracker/lv/adapter/CustomListAdapter.java,6\a\6ae9a45649a618b5712d939e49435d14578a5b94
 <
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
-S
-#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
 h
 8app/src/main/java/com/naorfarag/pricetracker/Finals.java,b\8\b8f6bc1dae5f5a71de0d8defa92b8b82096490e4
-_
-/app/src/main/res/drawable/list_row_bg_hover.xml,5\8\58946252d2dd4244df90870e3660a4b81e4124d0
 K
 .idea/dictionaries/Naor.xml,b\7\b78ec02b58ab135fc913690854ab17ea4d0b78ce
 ?
@@ -37,5 +33,19 @@ y
 Iapp/src/main/java/com/naorfarag/pricetracker/CustomJsonObjectRequest.java,1\d\1d8d4d5634b4f4bbeee0cde46fc7410fe3cb07db
 H
 app/google-services.json,f\d\fd8d34b142d02ec743a8efefefd2c097961666e9
-Y
-)app/src/main/res/layout/fragment_cart.xml,d\3\d3847d71b9fb3999d0a292b8bcc79f28a6d6933d
+x
+Happ/src/main/java/com/naorfarag/pricetracker/util/MyFireStoreHelper.java,d\e\de0179abc4cf99cad59719c49735dd21692fd5eb
+r
+Bapp/src/main/java/com/naorfarag/pricetracker/TopDealsFragment.java,d\5\d5854861a7a5dd32b2611d9b29e7d06a70e67303
+i
+9app/src/main/java/com/naorfarag/pricetracker/Service.java,3\9\39752d303f8fcc86e6453856bdaf1019afb7c63e
+‹
+[app/src/main/java/com/naorfarag/pricetracker/restarter/RestartServiceBroadcastReceiver.java,f\3\f3695d116a7685fc1c309c544135ff8eb1140992
+v
+Fapp/src/main/java/com/naorfarag/pricetracker/restarter/JobService.java,1\1\1176cc36b22ffe77205894e5061df2aaf1a9d3c1
+r
+Bapp/src/main/java/com/naorfarag/pricetracker/ProcessMainClass.java,e\1\e15e8f35e1ca8ee63f7522e54a89aaac9c5ac421
+s
+Capp/src/main/java/com/naorfarag/pricetracker/util/Notification.java,6\9\69fe2b77751c809408c0452f3d9d08820068943b
+l
+<app/src/main/java/com/naorfarag/pricetracker/MainActDup.java,1\3\1374ec4c0adcc2a3d84e12e5c5ba6a31e5f53a62

@@ -1,9 +1,9 @@
 
+M
+java:S1068"+Remove this unused "screenX" private field.(ŽÓšùúÿÿÿÿ8õˆØê‹.
 }
 java:S3923-"[Remove this conditional structure or edit its code blocks so that they're not all the same.(þ„Ü¡þÿÿÿÿ8’Ò•ì‹.
 }
 java:S3923%"[Remove this conditional structure or edit its code blocks so that they're not all the same.(þ„Ü¡þÿÿÿÿ8’Ò•ì‹.
-M
-java:S1068"+Remove this unused "screenX" private field.(ŽÓšùúÿÿÿÿ8õˆØê‹.
 x
 java:S1450"VRemove the "screenX" field and declare it as a local variable in the relevant methods.(ŽÓšùúÿÿÿÿ8õˆØê‹.

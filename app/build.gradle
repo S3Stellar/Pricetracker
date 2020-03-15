@@ -34,15 +34,19 @@ android {
         exclude 'org/apache/http/version.properties'
         exclude 'org/apache/http/client/version.properties'
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 
-    implementation 'org.json:json:20190722'
-
+    // Http / Json request
     implementation 'com.mcxiaoke.volley:library-aar:1.0.1'
+    implementation 'org.json:json:20190722'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
@@ -57,11 +61,23 @@ dependencies {
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
 
+    // Html.fromhtml
+    implementation 'androidx.core:core:1.2.0'
+
+    // Loading dialog
+    implementation 'com.github.f0ris.sweetalert:library:1.6.2'
+
+    // Rating bar
+    implementation 'com.github.ome450901:SimpleRatingBar:1.5.0'
+
+    // Firebase
+    //implementation 'com.google.firebase:firebase-messaging:20.1.2'
     implementation 'com.google.firebase:firebase-firestore:21.4.1'
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
+/*    implementation 'com.google.firebase:firebase-functions:19.0.2'
+    implementation 'com.google.firebase:firebase-admin:6.12.2'*/
+
     implementation group: 'com.google.api', name: 'api-common', version: '1.8.1'
-
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

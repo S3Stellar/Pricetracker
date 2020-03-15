@@ -3,6 +3,7 @@ package com.naorfarag.pricetracker.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -33,7 +34,10 @@ public class MyFireStoreHelper {
         return uniqueID;
     }
 
-    public void updateDocumentAttribute(String document, String attribute, String newAttrValue) {
+    public void updateDocumentAttributeString(String document, String attribute, String newAttrValue) {
+        db.collection(uniqueID).document(document).update(attribute, newAttrValue);
+    }
+    public void updateDocumentAttributeNumber(String document, String attribute, Double newAttrValue) {
         db.collection(uniqueID).document(document).update(attribute, newAttrValue);
     }
 }

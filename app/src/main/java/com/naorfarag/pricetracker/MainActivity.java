@@ -1,10 +1,9 @@
 package com.naorfarag.pricetracker;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
@@ -12,37 +11,35 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.naorfarag.pricetracker.lv.adapter.CustomListAdapter;
 import com.naorfarag.pricetracker.lv.app.AppController;
 import com.naorfarag.pricetracker.lv.model.Product;
+import com.naorfarag.pricetracker.restarter.RestartServiceBroadcastReceiver;
 import com.naorfarag.pricetracker.ui.main.MyViewPager;
 import com.naorfarag.pricetracker.ui.main.SectionsPagerAdapter;
+import com.naorfarag.pricetracker.util.AutoStartHelper;
 import com.naorfarag.pricetracker.util.MyFireStoreHelper;
+import com.naorfarag.pricetracker.util.PrefUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,11 +52,14 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class MainActivity extends AppCompatActivity {
+
     private Context context;
 
     private CustomJsonObjectRequest jsonObjReq;
-    private ProgressDialog pDialog;
+    private SweetAlertDialog pDialog;
 
     private FloatingActionButton fab;
 
@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     private CartFragment cf = new CartFragment();
     private SearchFragment sf = new SearchFragment();
+    private TopDealsFragment tf = new TopDealsFragment();
 
     private ListView listView;
     private CustomListAdapter customListAdapter;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MyFireStoreHelper fireStoreHelper;
     private boolean loadedFromDatabase = false;
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -89,10 +91,12 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.fab);
         tabs = findViewById(R.id.tabs);
         MyViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setOffscreenPageLimit(2);
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-
         sectionsPagerAdapter.addFragment(sf, context.getResources().getString(Finals.TAB_TITLES[0]));
         sectionsPagerAdapter.addFragment(cf, context.getResources().getString(Finals.TAB_TITLES[1]));
+        sectionsPagerAdapter.addFragment(tf, context.getResources().getString(Finals.TAB_TITLES[2]));
+
         viewPager.setAdapter(sectionsPagerAdapter);
         tabs.setupWithViewPager(viewPager);
 
@@ -103,50 +107,40 @@ public class MainActivity extends AppCompatActivity {
         setupTabIcons();
         startTabsSelectListener();
         startAddButtonListener();
+
+        MainActDup.setDoVibration(true);
+        MainActDup.setHasPriceChanged(false);
+        //PrefUtil.setBooleanPreference(context,Finals.AUTO_START,false);
+        if (!PrefUtil.getBooleanPreference(context, Finals.AUTO_START, false))
+            AutoStartHelper.getInstance().getAutoStartPermission(this);
     }
 
     private void loadProductsFromDatabase() {
         fireStoreHelper.getDb().collection(MyFireStoreHelper.getUniqueID())
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                JSONObject obj = mapToJSON(document.getData());
-                                addProductToTrackList(obj, "", Finals.FIRESTORE);
-                            }
-                        } else {
-                            Log.d(new Throwable().getStackTrace()[0].getMethodName(), Finals.LOAD_PRODUCTS_FAILED_LMSG, task.getException());
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                            JSONObject obj = mapToJSON(document.getData());
+                            addProductToTrackList(obj, "", Finals.FIRESTORE);
                         }
+                    } else {
+                        Log.d(new Throwable().getStackTrace()[0].getMethodName(), Finals.LOAD_PRODUCTS_FAILED_LMSG, task.getException());
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-            }
-        });
+                }).addOnFailureListener(e -> Log.d(new Throwable().getStackTrace()[0].getMethodName(), Objects.requireNonNull(e.getMessage())));
     }
 
     private void getJsonFromProductURL(final String url) {
         showLoadingDialog();
         jsonObjReq = new CustomJsonObjectRequest(com.android.volley.Request.Method.GET,
-                Finals.LOOKUP_PRODUCT_REQUEST + url, null, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-                addProductToTrackList(response, url, Finals.WEBVIEW);
-                hidePDialog();
-                listView.setSelection(Finals.TOP_LIST_PRODUCT);
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context,
-                        Finals.ADD_TO_TRACKLIST_FAILED_MSG, Toast.LENGTH_SHORT).show();
-                hidePDialog();
-            }
+                Finals.LOOKUP_PRODUCT_REQUEST + url, null, response -> {
+            addProductToTrackList(response, url, Finals.WEBVIEW);
+            hidePDialog();
+            listView.setSelection(Finals.TOP_LIST_PRODUCT);
+        }, error -> {
+            Toast.makeText(context,
+                    Finals.ADD_TO_TRACKLIST_FAILED_MSG, Toast.LENGTH_SHORT).show();
+            hidePDialog();
         });
         // Change timeout and number of tries to make the jsonRequest
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(Finals.REQUEST_TIMEOUT,
@@ -158,50 +152,58 @@ public class MainActivity extends AppCompatActivity {
 
     private void showLoadingDialog() {
         hidePDialog();
-        pDialog = new ProgressDialog(context);
-        pDialog.setMessage(Finals.LOADING_MSG);
+        LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        btnParams.leftMargin = 5;
+        pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor(Finals.GREEN_COLOR));
+        pDialog.setTitleText(Finals.LOADING_MSG);
         pDialog.setCancelable(false);
-        pDialog.setButton(DialogInterface.BUTTON_NEGATIVE, Finals.CANCEL_BT, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (jsonObjReq != null)
-                    jsonObjReq.cancel();
-                hidePDialog();
-            }
+        pDialog.showCancelButton(true);
+        pDialog.setCanceledOnTouchOutside(true);
+        pDialog.setCancelText(Finals.CANCEL_BT);
+        pDialog.setCancelClickListener(sDialog -> {
+            if (jsonObjReq != null)
+                jsonObjReq.cancel();
+            hidePDialog();
         });
         pDialog.show();
+        pDialog.getButton(SweetAlertDialog.BUTTON_CANCEL).setHeight(85);
+        pDialog.getButton(SweetAlertDialog.BUTTON_CANCEL).setLayoutParams(btnParams);
     }
 
     private void startAddButtonListener() {
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                YoYo.with(Techniques.Pulse).duration(200).repeat(1).playOn(view);
-                vibrate(context);
-                String correctUrl;
-                if (sf != null) {
-                    try {
-                        sf.getUrl();
-                    } catch (Exception e) {
-                        return;
-                    }
+        fab.setOnClickListener(view -> {
+            YoYo.with(Techniques.Pulse).duration(200).repeat(1).playOn(view);
+            vibrate(context);
+            String correctUrl;
 
+            try {
+                if (tabs.getSelectedTabPosition() == 0 && sf != null) {
+                    sf.getUrl();
                     correctUrl = checkAndFixProductURL(sf.getUrl());
-                    if (urlsInTracklist.contains(correctUrl)) {
-                        Toast.makeText(getApplicationContext(),
-                                Finals.ALREADY_IN_TRACKLIST_MSG, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                } else return;
+                } else if (tf != null) {
+                    tf.getUrl();
+                    correctUrl = checkAndFixProductURL(tf.getUrl());
+                } else
+                    return;
+            } catch (Exception e) {
+                return;
+            }
 
+            if (urlsInTracklist.contains(correctUrl)) {
+                Toast.makeText(getApplicationContext(),
+                        Finals.ALREADY_IN_TRACKLIST_MSG, Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                if (correctUrl != null) {
-                    getJsonFromProductURL(correctUrl);
-                    Objects.requireNonNull(tabs.getTabAt(1)).select();
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            Finals.GO_PRODUCT_PAGE_MSG, Toast.LENGTH_LONG).show();
-                }
+            if (correctUrl != null) {
+                getJsonFromProductURL(correctUrl);
+                Objects.requireNonNull(tabs.getTabAt(1)).select();
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        Finals.GO_PRODUCT_PAGE_MSG, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -239,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0) {
+                if (tab.getPosition() == 0 || tab.getPosition() == 2) {
                     findViewById(R.id.fab).setVisibility(View.VISIBLE);
                     getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.design_default_color_background));
                 } else {
@@ -247,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
                     findViewById(R.id.fab).setVisibility(View.INVISIBLE);
                     if (!loadedFromDatabase) {
                         loadProductsFromDatabase();
+                        refreshTracklistListener();
                     }
                 }
             }
@@ -272,9 +275,8 @@ public class MainActivity extends AppCompatActivity {
             Product product = new Product();
             product.setAsin(responseObj.getString(Finals.ASIN_ATTR));
             product.setProductTitle(responseObj.getString(Finals.PRODUCT_TITLE_ATTR));
-            if (responseObj.getString(Finals.SOLD_BY_ATTR).equals("") &&
-                    !responseObj.getString(Finals.SOLD_BY_ATTR).isEmpty() &&
-                    responseObj.getString(Finals.SOLD_BY_ATTR).equals("null"))
+            if (!responseObj.getString(Finals.SOLD_BY_ATTR).isEmpty() &&
+                    !responseObj.getString(Finals.SOLD_BY_ATTR).equalsIgnoreCase(Finals.NULL_RA_ATTR))
                 product.setSoldBy(responseObj.getString(Finals.SOLD_BY_ATTR));
             else
                 product.setSoldBy(Finals.AMAZON_NAME);
@@ -284,41 +286,64 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 addProductFromDatabase(responseObj, product);
             }
-
             productList.add(0, product);
+            customListAdapter.notifyDataSetChanged();
 
         } catch (JSONException e) {
+            snackBarMessage(Finals.ADD_TO_TRACKLIST_FAILED_MSG);
             Log.d(new Throwable().getStackTrace()[0].getMethodName(), Objects.requireNonNull(e.getMessage()));
         }
-        customListAdapter.notifyDataSetChanged();
     }
 
     private void addProductFromDatabase(JSONObject responseObj, Product product) throws JSONException {
-        urlsInTracklist.add(responseObj.getString(Finals.CORRECT_URL_ATTR));
-        product.setOriginalUrl(responseObj.getString(Finals.ORIGINAL_URL_ATTR));
-        product.setMainImage(responseObj.getString(Finals.MAIN_IMAGE_ATTR));
-        product.setCurrencySymbol(responseObj.getString(Finals.CURRENCY_SYM_ATTR));
-        product.setCorrectUrl(responseObj.getString(Finals.CORRECT_URL_ATTR));
-        product.setCurrentPrice(responseObj.getDouble(Finals.C_PRICE_ATTR));
-        product.setTargetPrice(responseObj.getDouble(Finals.T_PRICE_ATTR));
-        product.setRating(responseObj.getDouble(Finals.RATING_ATTR));
+        try {
+            urlsInTracklist.add(responseObj.getString(Finals.CORRECT_URL_ATTR));
+            product.setOriginalUrl(responseObj.getString(Finals.ORIGINAL_URL_ATTR));
+            product.setMainImage(responseObj.getString(Finals.MAIN_IMAGE_ATTR));
+            product.setCurrencySymbol(responseObj.getString(Finals.CURRENCY_SYM_ATTR));
+            product.setCorrectUrl(responseObj.getString(Finals.CORRECT_URL_ATTR));
+            product.setCurrentPrice(responseObj.getDouble(Finals.C_PRICE_ATTR));
+            try {
+                product.setTargetPrice(responseObj.getDouble(Finals.T_PRICE_ATTR));
+            }catch(Exception e){
+                product.setTargetPrice(responseObj.getDouble(Finals.C_PRICE_ATTR));
+            }
+            product.setRating(responseObj.getDouble(Finals.RATING_ATTR));
+        } catch (JSONException e) {
+            snackBarMessage(Finals.LOAD_PRODUCTS_FAILED_MSG);
+            throw e;
+        }
         snackBarMessage(Finals.ITEMS_ADDED_SUCC_MSG);
     }
 
     private void addProductFromWeb(JSONObject responseObj, String correctUrl, Product product) throws JSONException {
         urlsInTracklist.add(correctUrl);
-        product.setOriginalUrl(sf.getUrl());
+        if (tabs.getSelectedTabPosition() == 0) {
+            product.setOriginalUrl(sf.getUrl());
+        } else
+            product.setOriginalUrl(tf.getUrl());
+
         product.setCorrectUrl(correctUrl);
-        product.setMainImage(responseObj.getJSONObject(Finals.MAIN_IMAGE_ATTR).getString(Finals.IMAGE_URL_RA_ATTR));
-        product.setCurrencySymbol(responseObj.getJSONObject(Finals.CURRENCY_RA_ATTR).getString(Finals.SYMBOL_RA_ATTR));
-        if (responseObj.getDouble(Finals.DEAL_RA_ATTR) > 0) {
-            product.setCurrentPrice(responseObj.getDouble(Finals.DEAL_RA_ATTR));
-        } else if (responseObj.getDouble(Finals.SALE_RA_ATTR) > 0) {
-            product.setCurrentPrice(responseObj.getDouble(Finals.SALE_RA_ATTR));
-        } else if (responseObj.getDouble(Finals.PRICE_RA_ATTR) > 0) {
-            product.setCurrentPrice(responseObj.getDouble(Finals.PRICE_RA_ATTR));
-        } else {
-            product.setCurrentPrice(responseObj.getDouble(Finals.RETAIL_RA_ATTR));
+        try {
+            product.setCurrencySymbol(responseObj.getJSONObject(Finals.CURRENCY_RA_ATTR).getString(Finals.SYMBOL_RA_ATTR));
+            if (product.getCurrencySymbol().equals(Finals.NULL_RA_ATTR) || product.getCurrencySymbol() == null)
+                product.setCurrencySymbol(Finals.CURRENCY_SYM_SIGN);
+        } catch (Exception e) {
+            product.setCurrencySymbol(Finals.CURRENCY_SYM_SIGN);
+        }
+        try {
+            product.setMainImage(responseObj.getJSONObject(Finals.MAIN_IMAGE_ATTR).getString(Finals.IMAGE_URL_RA_ATTR));
+            if (responseObj.getDouble(Finals.DEAL_RA_ATTR) > 0) {
+                product.setCurrentPrice(responseObj.getDouble(Finals.DEAL_RA_ATTR));
+            } else if (responseObj.getDouble(Finals.SALE_RA_ATTR) > 0) {
+                product.setCurrentPrice(responseObj.getDouble(Finals.SALE_RA_ATTR));
+            } else if (responseObj.getDouble(Finals.PRICE_RA_ATTR) > 0) {
+                product.setCurrentPrice(responseObj.getDouble(Finals.PRICE_RA_ATTR));
+            } else {
+                product.setCurrentPrice(responseObj.getDouble(Finals.RETAIL_RA_ATTR));
+            }
+        } catch (JSONException e) {
+            throw e;
         }
         product.setTargetPrice(product.getCurrentPrice());
 
@@ -381,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void hidePDialog() {
         if (pDialog != null) {
-            pDialog.dismiss();
+            pDialog.dismissWithAnimation();
             pDialog = null;
         }
     }
@@ -411,6 +436,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupTabIcons() {
         Objects.requireNonNull(tabs.getTabAt(0)).setIcon(Finals.tabIcons[0]);
         Objects.requireNonNull(tabs.getTabAt(1)).setIcon(Finals.tabIcons[1]);
+        Objects.requireNonNull(tabs.getTabAt(2)).setIcon(Finals.tabIcons[2]);
     }
 
     @Override
@@ -435,19 +461,42 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        int canBack = sf.onBackPressed();
+        int canBack;
+        if (tabs.getSelectedTabPosition() == 0)
+            canBack = sf.onBackPressed();
+        else
+            canBack = tf.onBackPressed();
         if (canBack == -1)
             super.onBackPressed();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        try {
-            if (listView != null)
-                listView.onTouchEvent(event);
-        } catch (Exception e) {
+    public Context getContext() {
+        return context;
+    }
 
+    @SuppressLint("ObsoleteSdkInt")
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            RestartServiceBroadcastReceiver.scheduleJob(getApplicationContext());
+        } else {
+            ProcessMainClass bck = new ProcessMainClass();
+            bck.launchService(getApplicationContext());
         }
-        return false;
+    }
+
+    public void refreshTracklistListener(){
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.cartLayout);
+                swipeRefreshLayout.setOnRefreshListener(
+                () -> {
+                    Log.i("LOG_TAG", "onRefresh called from SwipeRefreshLayout");
+                    MainActDup mainActDup = new MainActDup(this,Finals.UPDATE_JOB_CALLER);
+                    for (int i = 0; i < productList.size(); i++) {
+                        mainActDup.getJsonFromProductURL(productList.get(i).getCorrectUrl(), customListAdapter, swipeRefreshLayout);
+                    }
+                }
+        );
     }
 }
