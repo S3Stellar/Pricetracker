@@ -427,6 +427,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            AutoStartHelper.getInstance().getAutoStartPermission(this);
             return true;
         }
 

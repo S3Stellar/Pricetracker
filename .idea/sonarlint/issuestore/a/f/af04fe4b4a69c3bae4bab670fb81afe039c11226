@@ -1,18 +1,18 @@
 
 „
-java:S1130¿"aRemove the declaration of thrown exception 'org.json.JSONException' which is a runtime exception.(³‰Œ£ıÿÿÿÿ8æõ¶‰.
-p
-java:S3776Ó"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(êÏÜı8èñ¾„.
-X
-java:S1141²"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8”–Øº.
-:
-java:S2386K"Make this member "protected".(°¢ûá8ìÀÔƒ.
-„
 java:S1130ª"aRemove the declaration of thrown exception 'org.json.JSONException' which is a runtime exception.(Ì¦ËÖùÿÿÿÿ8æõ¶‰.
 Ÿ
 java:S1186†"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¦›Í8èñ¾„.
-u
-java:S2737Ú"WAdd logic to this catch clause or eliminate it and rethrow the exception automatically.(ö™û8èñ¾„.
+„
+java:S1130¿"aRemove the declaration of thrown exception 'org.json.JSONException' which is a runtime exception.(³‰Œ£ıÿÿÿÿ8æõ¶‰.
+X	java:S125q"<This block of commented-out lines of code should be removed.(‰¾Ì¡8ş¢³Û.
+:
+java:S2386K"Make this member "protected".(°¢ûá8ìÀÔƒ.
 ¤
 java:S1186‚"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(½Ä³ïşÿÿÿÿ8èñ¾„.
-X	java:S125q"<This block of commented-out lines of code should be removed.(‰¾Ì¡8ş¢³Û.
+u
+java:S2737Ú"WAdd logic to this catch clause or eliminate it and rethrow the exception automatically.(ö™û8èñ¾„.
+X
+java:S1141²"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8”–Øº.
+p
+java:S3776Ó"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(êÏÜı8èñ¾„.
