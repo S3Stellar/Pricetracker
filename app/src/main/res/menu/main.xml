@@ -7,4 +7,10 @@
         android:title="@string/auto_start"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/check_interval"
+        android:orderInCategory="100"
+        android:title="@string/check_interval"
+        app:showAsAction="never" />
+
 </menu>

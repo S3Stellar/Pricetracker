@@ -3,5 +3,7 @@
     <string name="tab_search">Search</string>
     <string name="tab_tracklist">Tracklist</string>
     <string name="tab_topdeals">Top Deals</string>
-    <string name="auto_start">Auto start</string>
+    <string name="auto_start">Enable auto price checker</string>
+    <string name="dis_not">Disable auto price checker</string>
+    <string name="check_interval">Check intervals</string>
 </resources>

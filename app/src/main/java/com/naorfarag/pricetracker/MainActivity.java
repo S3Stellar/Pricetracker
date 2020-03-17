@@ -1,6 +1,7 @@
 package com.naorfarag.pricetracker;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -21,11 +24,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.github.hamzaahmedkhan.spinnerdialog.SpinnerDialogFragment;
+import com.github.hamzaahmedkhan.spinnerdialog.SpinnerModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -63,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton fab;
 
-    private TabLayout tabs;
+    private static TabLayout tabs;
 
     private CartFragment cf = new CartFragment();
     private SearchFragment sf = new SearchFragment();
@@ -72,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private CustomListAdapter customListAdapter;
     private List<Product> productList = new ArrayList<>();
-    public static final List<String> urlsInTracklist = new ArrayList<>();
-
+    public static final List<String> urlsInTrackList = new ArrayList<>();
+    private static MyViewPager viewPager;
     private MyFireStoreHelper fireStoreHelper;
     private boolean loadedFromDatabase = false;
-
+    private SpinnerDialogFragment spinnerDialogFragment;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -90,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         fab = findViewById(R.id.fab);
         tabs = findViewById(R.id.tabs);
-        MyViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(2);
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         sectionsPagerAdapter.addFragment(sf, context.getResources().getString(Finals.TAB_TITLES[0]));
@@ -107,12 +113,26 @@ public class MainActivity extends AppCompatActivity {
         setupTabIcons();
         startTabsSelectListener();
         startAddButtonListener();
+        initSpinner();
 
-        MainActDup.setDoVibration(true);
         MainActDup.setHasPriceChanged(false);
-        //PrefUtil.setBooleanPreference(context,Finals.AUTO_START,false);
+
         if (!PrefUtil.getBooleanPreference(context, Finals.AUTO_START, false))
             AutoStartHelper.getInstance().getAutoStartPermission(this);
+        Finals.CHECK_INTERVAL = PrefUtil.getIntegerPreference(context, Finals.CHECK_INT_KEY, 6);
+    }
+
+    private void initSpinner() {
+        ArrayList<SpinnerModel> arrSpinners = new ArrayList<>();
+
+        for (int i = 1; i < 17; i++) {
+            arrSpinners.add(new SpinnerModel("Check prices every " + i + " hours."));
+        }
+
+        spinnerDialogFragment = SpinnerDialogFragment.Companion.newInstance(Finals.PRICE_INTERVAL_TITLE, arrSpinners, (spinnerModel, row) -> {
+            Finals.CHECK_INTERVAL = row + 1;
+            PrefUtil.setIntegerPreference(context, Finals.CHECK_INT_KEY, Finals.CHECK_INTERVAL);
+        }, 0);
     }
 
     private void loadProductsFromDatabase() {
@@ -192,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            if (urlsInTracklist.contains(correctUrl)) {
+            if (urlsInTrackList.contains(correctUrl)) {
                 Toast.makeText(getApplicationContext(),
                         Finals.ALREADY_IN_TRACKLIST_MSG, Toast.LENGTH_SHORT).show();
                 return;
@@ -297,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addProductFromDatabase(JSONObject responseObj, Product product) throws JSONException {
         try {
-            urlsInTracklist.add(responseObj.getString(Finals.CORRECT_URL_ATTR));
+            urlsInTrackList.add(responseObj.getString(Finals.CORRECT_URL_ATTR));
             product.setOriginalUrl(responseObj.getString(Finals.ORIGINAL_URL_ATTR));
             product.setMainImage(responseObj.getString(Finals.MAIN_IMAGE_ATTR));
             product.setCurrencySymbol(responseObj.getString(Finals.CURRENCY_SYM_ATTR));
@@ -305,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
             product.setCurrentPrice(responseObj.getDouble(Finals.C_PRICE_ATTR));
             try {
                 product.setTargetPrice(responseObj.getDouble(Finals.T_PRICE_ATTR));
-            }catch(Exception e){
+            } catch (Exception e) {
                 product.setTargetPrice(responseObj.getDouble(Finals.C_PRICE_ATTR));
             }
             product.setRating(responseObj.getDouble(Finals.RATING_ATTR));
@@ -317,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addProductFromWeb(JSONObject responseObj, String correctUrl, Product product) throws JSONException {
-        urlsInTracklist.add(correctUrl);
+        urlsInTrackList.add(correctUrl);
         if (tabs.getSelectedTabPosition() == 0) {
             product.setOriginalUrl(sf.getUrl());
         } else
@@ -400,8 +420,46 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         hidePDialog();
+        if (sf != null && sf.getWebView() != null) {
+            destroyWebView(sf.getWebView());
+        }
+        if (tf != null && tf.getWebView() != null) {
+            destroyWebView(tf.getWebView());
+        }
+        if(AutoStartHelper.getSweetAlertDialog()!=null)
+            AutoStartHelper.getSweetAlertDialog().dismiss();
+        super.onDestroy();
+    }
+
+    public void destroyWebView(WebView mWebView) {
+
+        // Make sure you remove the WebView from its parent view before doing anything.
+        ((FrameLayout) mWebView.getParent()).removeAllViews();
+        mWebView.clearHistory();
+
+        // NOTE: clears RAM cache, if you pass true, it will also clear the disk cache.
+        // Probably not a great idea to pass true if you have other WebViews still alive.
+        mWebView.clearCache(true);
+
+        // Loading a blank page is optional, but will ensure that the WebView isn't doing anything when you destroy it.
+        mWebView.loadUrl("about:blank");
+
+        mWebView.onPause();
+        mWebView.removeAllViews();
+        mWebView.destroyDrawingCache();
+
+        // NOTE: This pauses JavaScript execution for ALL WebViews,
+        // do not use if you have other WebViews still alive.
+        // If you create another WebView after calling this,
+        // make sure to call mWebView.resumeTimers().
+        mWebView.pauseTimers();
+
+        // NOTE: This can occasionally cause a segfault below API 17 (4.2)
+        mWebView.destroy();
+
+        // Null out the reference so that you don't end up re-using it.
+        mWebView = null;
     }
 
     private void hidePDialog() {
@@ -430,9 +488,14 @@ public class MainActivity extends AppCompatActivity {
             AutoStartHelper.getInstance().getAutoStartPermission(this);
             return true;
         }
+        if (id == R.id.check_interval) {
+            spinnerDialogFragment.show(getSupportFragmentManager(), Finals.PRICE_INTERVAL_TITLE);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     private void setupTabIcons() {
         Objects.requireNonNull(tabs.getTabAt(0)).setIcon(Finals.tabIcons[0]);
@@ -488,16 +551,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void refreshTracklistListener(){
+    public void refreshTracklistListener() {
         SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.cartLayout);
-                swipeRefreshLayout.setOnRefreshListener(
+        swipeRefreshLayout.setOnRefreshListener(
                 () -> {
-                    Log.i("LOG_TAG", "onRefresh called from SwipeRefreshLayout");
-                    MainActDup mainActDup = new MainActDup(this,Finals.UPDATE_JOB_CALLER);
+                    MainActDup mainActDup = new MainActDup(this, Finals.UPDATE_JOB_CALLER);
                     for (int i = 0; i < productList.size(); i++) {
                         mainActDup.getJsonFromProductURL(productList.get(i).getCorrectUrl(), customListAdapter, swipeRefreshLayout);
                     }
                 }
         );
+    }
+
+    public static void showProductPage(String correctUrl) {
+        Objects.requireNonNull(tabs.getTabAt(0)).select();
+        Fragment sf = getVisibleFragment();
+        ((SearchFragment) sf).getWebView().loadUrl(correctUrl);
+    }
+
+    public static Fragment getVisibleFragment() {
+        return (Fragment) viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
     }
 }

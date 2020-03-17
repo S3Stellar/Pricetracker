@@ -138,7 +138,7 @@ public class Service extends android.app.Service {
 
         Log.i(TAG, "Scheduling...");
         //schedule the timer, to wake up every 1 second
-        timer.schedule(timerTask, 5000, 60000*60); // check every 60mins, start after 5s
+        timer.schedule(timerTask, 5000, (long) 3600000*Finals.CHECK_INTERVAL); // check every 60mins, start after 5s
     }
 
     /**
@@ -151,13 +151,9 @@ public class Service extends android.app.Service {
                 MainActDup mainActDup = new MainActDup(getApplicationContext(), Finals.SERVICE_JOB_CALLER);
                 Notification notification = new Notification();
                 if (MainActDup.hasPriceChanged()) {
-                    if (MainActDup.isDoVibration()) {
-                        MainActivity.vibrate(getApplicationContext());
-                        MainActDup.setDoVibration(false);
-                    }
-                    startForeground(NOTIFICATION_ID, notification.setNotification(getApplicationContext(), "Price drop!", "A product's price has dropped!", R.drawable.ic_sleep));
+                    startForeground(NOTIFICATION_ID, notification.setNotification(getApplicationContext(), Finals.PRICE_DROP_TITLE_NOTIFICATION, Finals.PRICE_DROP_ALERT_NOTIFICATION, R.drawable.ic_sleep));
                 } else {
-                    startForeground(NOTIFICATION_ID, notification.setNotification(getApplicationContext(), null, "Tracking price changes", R.drawable.ic_sleep));
+                    startForeground(NOTIFICATION_ID, notification.setNotification(getApplicationContext(), null, Finals.TRACKING_PRICES_NOTIFICATION, R.drawable.ic_sleep));
                 }
                 Log.i("in timer", "in timer ++++  " + (counter++));
             }

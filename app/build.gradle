@@ -67,6 +67,9 @@ dependencies {
     // Loading dialog
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
 
+    // Spinner Dialog
+    implementation 'com.github.hamzaahmedkhan:SpinnerDialog:v1.0'
+
     // Rating bar
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.0'
 

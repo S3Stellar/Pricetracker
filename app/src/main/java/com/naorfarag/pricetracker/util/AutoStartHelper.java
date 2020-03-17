@@ -76,13 +76,14 @@ public class AutoStartHelper {
     private String PACKAGE_NOKIA_COMPONENT = "com.evenwell.powersaving.g3.exception.PowerSaverExceptionActivity";
 
 
+    private static SweetAlertDialog sweetAlertDialog;
+
     private AutoStartHelper() {
     }
 
     public static AutoStartHelper getInstance() {
         return new AutoStartHelper();
     }
-
 
     public void getAutoStartPermission(Context context) {
 
@@ -135,7 +136,7 @@ public class AutoStartHelper {
     private void showAlert(Context context, SweetAlertDialog.OnSweetClickListener onClickListener) {
         ImageView imageView = new ImageView(context);
         imageView.setImageResource(R.drawable.autostart);
-        SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+        sweetAlertDialog = new SweetAlertDialog(context, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
         sweetAlertDialog.setCancelable(false);
         sweetAlertDialog.setCanceledOnTouchOutside(false);
         sweetAlertDialog
@@ -145,9 +146,6 @@ public class AutoStartHelper {
                 .setConfirmButton("Go to settings", onClickListener)
                 .show();
 
-       /* new AlertDialog.Builder(context).setTitle("Allow AutoStart")
-                .setMessage("Please enable auto start in settings.")
-                .setPositiveButton("Allow", onClickListener).show().setCancelable(false);*/
     }
 
     private void autoStartXiaomi(final Context context) {
@@ -296,5 +294,9 @@ public class AutoStartHelper {
         }
 
         return false;
+    }
+
+    public static SweetAlertDialog getSweetAlertDialog() {
+        return sweetAlertDialog;
     }
 }

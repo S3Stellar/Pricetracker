@@ -15,6 +15,10 @@ public final class Finals {
     public static final int WEBVIEW = 0;
     public static final int TOP_LIST_PRODUCT = 0;
 
+    // Check interval - 1 hour = 3600000ms
+    public static int CHECK_INTERVAL = 6;
+    public static final String PRICE_INTERVAL_TITLE = "Price check intervals";
+
 
     public static final String CURRENT_PRICE = "Current Price:";
     public static final String TARGET_PRICE = "Target Price:";
@@ -75,17 +79,26 @@ public final class Finals {
 
     // Messages to user
     public static final String PRODUCT_ADDED_SUCC_MSG = "          The item has successfully added to tracklist!";
-    public static final String LOAD_PRODUCTS_FAILED_MSG = "          Loading tracklist products failed!" ;
+    public static final String LOAD_PRODUCTS_FAILED_MSG = "          Loading tracklist products failed!";
     public static final String ITEMS_ADDED_SUCC_MSG = "          Items loaded successfully";
     public static final String ADD_TO_TRACKLIST_FAILED_MSG = "Adding to tracklist failed";
     public static final String ALREADY_IN_TRACKLIST_MSG = "Product already in tracklist!";
     public static final String PRODUCT_REMOVED_MSG = "Product removed from tracklist";
     public static final String CHOOSE_THRESHOLD_MSG = "Choose threshold alert price";
     public static final String GO_PRODUCT_PAGE_MSG = "Go to a product page!";
+    public static final String TRACKLIST_UPDATED_MSG = "Tracklist updated successfully";
     public static final String LOADING_MSG = "Loading...";
+    public static final String UPDATE_TITLE_MSG = "Update";
 
-    // Logs MSGS
+    // Bar notifications
+    public static final String PRICE_DROP_TITLE_NOTIFICATION = "Price drop!";
+    public static final String PRICE_DROP_ALERT_NOTIFICATION = "A product's price has dropped!";
+    public static final String TRACKING_PRICES_NOTIFICATION = "Tracking price changes";
+
+    // Log MSGS
     public static final String LOAD_PRODUCTS_FAILED_LMSG = "Failed to load database";
+    public static final String LOWER_PRICE_DETECTED_LMSG = "Lower price detected!";
+    public static final String JSON_REQ_FAILED_LMSG = "failed jsonReq";
 
     // Util
     public static final String GREEN_COLOR = "#A5DC86";
@@ -95,6 +108,7 @@ public final class Finals {
 
     // SharedPreference auto start key
     public static final String AUTO_START = "AutoStart";
+    public static final String CHECK_INT_KEY = "CheckInt";
 
     // From service caller
     public static final int SERVICE_JOB_CALLER = 1;

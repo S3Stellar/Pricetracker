@@ -27,7 +27,6 @@ public class JobService extends android.app.job.JobService {
         registerRestarterReceiver();
         instance = this;
         JobService.jobParameters = jobParameters;
-        Log.d("onStartJob","FK START JOB");
         return false;
     }
 

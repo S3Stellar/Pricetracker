@@ -48,14 +48,11 @@ public class CustomListAdapter extends BaseAdapter {
 
     private SwipeLayout swipeLayout;
     private CardView cardView;
-    private ImageView priceButton;
+    private ImageView buyNowButton;
     private ImageView deleteButton;
     private LinearLayout bottomWrapper;
     private TextView targetPrice;
     private boolean isDialogOpen = false;
-    private int position;
-    private View convertView;
-    private ViewGroup parent;
 
     @SuppressLint("HardwareIds")
     public CustomListAdapter(Activity activity, List<Product> productList) {
@@ -75,15 +72,14 @@ public class CustomListAdapter extends BaseAdapter {
 
         if (imageLoader == null)
             imageLoader = AppController.getInstance().getImageLoader();
-        this.position = position;
-        this.convertView = convertView;
-        this.parent = parent;
+
         updateCurrentProduct(position, convertView);
         setCardViewListener(position);
         setDeleteButtonListener(position);
-        setPriceButtonListener(position);
+        setBuyNowListener(position);
         setBottomWrapperListener();
         setSwipeOnProducts();
+
         return convertView;
     }
 
@@ -97,7 +93,7 @@ public class CustomListAdapter extends BaseAdapter {
     public void updateCurrentProduct(int position, View convertView) {
         swipeLayout = convertView.findViewById(R.id.swipe_layout1);
         cardView = convertView.findViewById(R.id.cardview_layout);
-        priceButton = convertView.findViewById(R.id.priceButton);
+        buyNowButton = convertView.findViewById(R.id.buyNowButton);
         deleteButton = convertView.findViewById(R.id.deleteButton);
         bottomWrapper = convertView.findViewById(R.id.bottom_wrapper);
 
@@ -151,8 +147,8 @@ public class CustomListAdapter extends BaseAdapter {
     private void setDeleteButtonListener(final int position) {
         deleteButton.setOnClickListener(v -> {
             if (!productList.isEmpty() && position <= productList.size()) {
-                if (!MainActivity.urlsInTracklist.isEmpty()) {
-                    Objects.requireNonNull(MainActivity.urlsInTracklist.remove(productList.get(position).getCorrectUrl()));
+                if (!MainActivity.urlsInTrackList.isEmpty()) {
+                    Objects.requireNonNull(MainActivity.urlsInTrackList.remove(productList.get(position).getCorrectUrl()));
                 }
                 Product saveProduct = productList.get(position);
 
@@ -168,11 +164,11 @@ public class CustomListAdapter extends BaseAdapter {
         });
     }
 
-    private void setPriceButtonListener(final int position) {
-        priceButton.setOnClickListener(v -> {
+    private void setBuyNowListener(final int position) {
+        buyNowButton.setOnClickListener(v -> {
             YoYo.with(Techniques.Pulse).duration(200).repeat(1).playOn(v);
             MainActivity.vibrate(activity);
-            threshHoldPriceDialog(position);
+            MainActivity.showProductPage(productList.get(position).getCorrectUrl());
         });
     }
 
@@ -222,7 +218,7 @@ public class CustomListAdapter extends BaseAdapter {
         SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(activity, SweetAlertDialog.NORMAL_TYPE);
         sweetAlertDialog.setTitleText(Finals.TARGET_PRICE);
         sweetAlertDialog.setCustomImage(R.drawable.prices_settings_img);
-        sweetAlertDialog.setConfirmButton("Ok", sweetAlertDialog1 -> {
+        sweetAlertDialog.setConfirmButton(Finals.OK_BT, sweetAlertDialog1 -> {
             Product p = productList.get(position);
             String threshHold = edittext.getText().toString();
             if (!threshHold.isEmpty()) {
@@ -239,7 +235,7 @@ public class CustomListAdapter extends BaseAdapter {
         sweetAlertDialog.show();
     }
 
-    private class ProductUndoListener implements View.OnClickListener {
+    class ProductUndoListener implements View.OnClickListener {
         private Product saveProduct;
         private int position;
 
@@ -252,7 +248,7 @@ public class CustomListAdapter extends BaseAdapter {
         public void onClick(View view) {
             productList.add(0, saveProduct);
             fireStoreHelper.addProductToDatabase(saveProduct);
-            Objects.requireNonNull(MainActivity.urlsInTracklist.add(productList.get(position).getCorrectUrl()));
+            Objects.requireNonNull(MainActivity.urlsInTrackList.add(productList.get(position).getCorrectUrl()));
             notifyDataSetChanged();
         }
     }
@@ -272,33 +268,6 @@ public class CustomListAdapter extends BaseAdapter {
         return position;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    public View getConvertView() {
-        return convertView;
-    }
-
-    public void setConvertView(View convertView) {
-        this.convertView = convertView;
-    }
-
-    public ViewGroup getParent() {
-        return parent;
-    }
-
-    public void setParent(ViewGroup parent) {
-        this.parent = parent;
-    }
-
-    public List<Product> getProductList() {
-        return productList;
-    }
 
     public Product getProductByAsin(String asin) {
         for (int i = 0; i < productList.size(); i++) {

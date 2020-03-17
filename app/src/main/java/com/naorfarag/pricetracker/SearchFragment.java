@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
  * A simple {@link Fragment} subclass.
  */
 public class SearchFragment extends Fragment {
-    private WebView view;
+    private WebView webView;
     private String amazonWebsite = Finals.AMAZON_COM_HOMEPAGE;
     private int layout;
 
@@ -37,40 +37,65 @@ public class SearchFragment extends Fragment {
         View rootView = inflater.inflate(layout, container, false);
 
         if (layout == R.layout.fragment_topdeals)
-            view = rootView.findViewById(R.id.webViewTopDeals);
+            webView = rootView.findViewById(R.id.webViewTopDeals);
         else
-            view = rootView.findViewById(R.id.webViewSearch);
+            webView = rootView.findViewById(R.id.webViewSearch);
 
-        view.setWebViewClient(new WebViewClient());
-        view.getSettings().setSupportZoom(true);
-        view.getSettings().setBuiltInZoomControls(true);
-        view.getSettings().setDisplayZoomControls(false);
-        view.getSettings().setGeolocationEnabled(true);
-        view.getSettings().setSupportMultipleWindows(true);
+        webView.setWebViewClient(new WebViewClient());
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);
+        webView.getSettings().setGeolocationEnabled(true);
+        webView.getSettings().setSupportMultipleWindows(true);
 
-        view.getSettings().setJavaScriptEnabled(true);
-        view.getSettings().setAllowContentAccess(true);
-        view.getSettings().setAppCacheEnabled(true);
-        view.getSettings().setDomStorageEnabled(true);
-        view.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setAllowContentAccess(true);
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setUseWideViewPort(true);
 
-        view.getSettings().setAllowFileAccess(true);
-        view.loadUrl(amazonWebsite);
+        webView.getSettings().setAllowFileAccess(true);
+        webView.loadUrl(amazonWebsite);
 
         return rootView;
     }
 
     public String getUrl() {
-        return view.getUrl();
+        return webView.getUrl();
     }
 
 
     public int onBackPressed() {
-        if (view.canGoBack()) {
-            view.goBack();
+        if (webView.canGoBack()) {
+            webView.goBack();
         } else {
             return -1;
         }
         return 1;
+    }
+
+    public WebView getWebView() {
+        return webView;
+    }
+    @Override
+    public void onPause() {
+        webView.onPause();
+        webView.pauseTimers();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        webView.resumeTimers();
+        webView.onResume();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        webView.destroy();
+        webView = null;
+        super.onDestroy();
     }
 }

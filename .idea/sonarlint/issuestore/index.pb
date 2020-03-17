@@ -55,12 +55,8 @@ o
 ?app/src/main/java/com/naorfarag/pricetracker/util/PrefUtil.java,2\a\2aaf4e19e4443c011fad8901e31563911473dd68
 V
 &app/src/main/res/drawable/ic_sleep.xml,3\e\3ef898aea13b348f8cc6a816252e78b4204eceb1
-[
-+app/src/main/res/layout/fragment_search.xml,2\f\2f0ecfae4fe398a722fcad4e3b06b75ba69c589a
 ]
 -app/src/main/res/layout/fragment_topdeals.xml,e\f\ef8f14a8b5c23e3c5d63c8241d53bfc57c412e0b
-T
-$app/src/main/res/layout/list_row.xml,3\0\3052631d7c045b9e6132ed65f71402d25398e6f5
 c
 3app/src/main/res/mipmap-anydpi-v26/ic_app_icon3.xml,a\6\a6f6ea595704c186bdd8cfa666262ffdf93e25e7
 i
