@@ -60,7 +60,7 @@ public final class Finals {
     public static final String RAPID_API_HOST = "x-rapidapi-host";
     public static final String RAPID_API_KEY = "x-rapidapi-key";
     public static final String MY_RAPID_API_HOST = "axesso-axesso-amazon-data-service-v1.p.rapidapi.com";
-    public static final String MY_RAPID_API_KEY = "163390d585mshe3218928e588b9fp1cd5c2jsn7add31f99e95";
+    public static final String MY_RAPID_API_KEY = "57f1e695cdmsh17826179735d98bp129b0fjsn6b31ae6c2669";
     public static final String LOOKUP_PRODUCT_REQUEST = "https://axesso-axesso-amazon-data-service-v1.p.rapidapi.com/amz/amazon-lookup-product?url=";
     public static final int REQUEST_TIMEOUT = 6000;
     public static final int MAX_NUM_RETRIES = 2;
